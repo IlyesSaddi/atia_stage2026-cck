@@ -1,0 +1,539 @@
+/* ========== PAGE LAYOUT (MENU + HEADER) ========== */
+
+  .main-content {
+    margin-left: 230px; 
+    margin-top: 0; 
+    padding: 40px;       /* ← retire le margin-top, le header le gère déjà */
+    min-height: 100vh;
+    background: #f0f4f9;
+  }
+
+
+/* ========== CONTENT AREA ========== */
+.content {
+    padding: 0;
+    flex: 1;
+}
+
+.content-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 24px;
+}
+
+.btn-add {
+    background: #1e293b;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-add:hover {
+    background: #334155;
+}
+
+/* ========== EVENTS GRID & CARDS ========== */
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 colonnes par défaut */
+    gap: 14px;
+}
+
+.event-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.event-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+}
+
+.event-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.event-img {
+    width: 100%;
+    height: 160px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    background: #f1f5f9;
+}
+
+.event-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.event-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+    flex: 1;
+}
+
+/* Status Badges */
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.status.upcoming { background: #fef3c7; color: #d97706; }
+.status.upcoming .status-dot { background: #d97706; }
+
+.status.ongoing  { background: #d1fae5; color: #059669; }
+.status.ongoing  .status-dot { background: #059669; }
+
+.status.finished { background: #fee2e2; color: #dc2626; }
+.status.finished .status-dot { background: #dc2626; }
+
+.event-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.event-info p {
+    font-size: 12px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.event-info i {
+    width: 16px;
+    color: #94a3b8;
+    text-align: center;
+}
+
+/* ========== ACTION BUTTONS ========== */
+.event-actions {
+    display: flex;
+    gap: 6px;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 10px;
+}
+
+.btn-action {
+    flex: 1;
+    padding: 6px 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.btn-view { color: #3b82f6; }
+.btn-view:hover { background: #eff6ff; border-color: #3b82f6; }
+
+.btn-edit { color: #f59e0b; }
+.btn-edit:hover { background: #fffbeb; border-color: #f59e0b; }
+
+.btn-delete { color: #ef4444; }
+.btn-delete:hover { background: #fef2f2; border-color: #ef4444; }
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .events-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px) and (min-width: 769px) {
+    .main-content {
+        margin-left: var(--sidebar-w-collapsed, 68px);
+        margin-top: 68px;
+        padding: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        margin-top: 68px;
+        padding: 24px;
+    }
+
+    .content {
+        padding: 0;
+    }
+}
+
+/* ========== Modal Overlay (Ajouter Événement) ========== */
+.event-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 15, 30, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    overflow-y: auto;
+    animation: overlayIn 0.2s ease;
+}
+
+@keyframes overlayIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.event-modal-card {
+    width: 100%;
+    max-width: 760px;
+    margin: auto;
+    animation: modalIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.event-modal-inner {
+    background: transparent;
+}
+
+/* Reprise du style du formulaire "ajouter-evenement" */
+.event-modal-overlay .form-container {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    padding: 40px;
+}
+
+.event-modal-overlay .form-header {
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.event-modal-overlay .form-header h1 {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.event-modal-overlay .form-header p {
+    margin: 0;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.event-modal-overlay .event-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.event-modal-overlay .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.event-modal-overlay .form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.event-modal-overlay .required {
+    color: #e8513a;
+}
+
+.event-modal-overlay .form-group input[type="text"],
+.event-modal-overlay .form-group input[type="date"],
+.event-modal-overlay .form-group input[type="time"],
+.event-modal-overlay .form-group textarea,
+.event-modal-overlay .form-group select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #1a1a2e;
+    background: #ffffff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.event-modal-overlay .form-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+}
+
+.event-modal-overlay .form-group input:focus,
+.event-modal-overlay .form-group textarea:focus,
+.event-modal-overlay .form-group select:focus {
+    border-color: #4a90d9;
+    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.15);
+}
+
+.event-modal-overlay .form-group input::placeholder,
+.event-modal-overlay .form-group textarea::placeholder {
+    color: #9ca3af;
+}
+
+.event-modal-overlay .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.event-modal-overlay .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.event-modal-overlay .image-upload {
+    position: relative;
+}
+
+.event-modal-overlay .image-upload input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.event-modal-overlay .upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 180px;
+    padding: 0;
+    border: 2px dashed #d1d5db;
+    border-radius: 10px;
+    background: #f9fafb;
+    transition: border-color 0.2s, background 0.2s;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.event-modal-overlay .image-upload:hover .upload-placeholder {
+    border-color: #4a90d9;
+    background: #eef4fb;
+}
+
+.event-modal-overlay .upload-placeholder svg {
+    color: #9ca3af;
+}
+
+.event-modal-overlay .upload-placeholder p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.event-modal-overlay .upload-placeholder span {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.event-modal-overlay .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 8px;
+}
+
+.event-modal-overlay .btn-cancel {
+    padding: 12px 28px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #374151;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.event-modal-overlay .btn-cancel:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.event-modal-overlay .btn-submit {
+    padding: 12px 32px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #152849 0%, #1e3a5f 100%);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.event-modal-overlay .btn-submit:hover {
+    background: linear-gradient(135deg, #1e3a5f 0%, #264d73 100%);
+    box-shadow: 0 4px 12px rgba(21, 40, 73, 0.3);
+}
+
+@media (max-width: 768px) {
+    .event-modal-card {
+        max-width: 100%;
+    }
+
+    .event-modal-overlay .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .event-modal-overlay .form-container {
+        padding: 24px;
+    }
+}
+/* ========== Modal Confirmation Suppression ========== */
+.delete-modal-card {
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+  animation: modalIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.delete-modal-inner {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 40px 36px 32px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.delete-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  background: #fef2f2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.delete-icon-wrapper i {
+  font-size: 26px;
+  color: #ef4444;
+}
+
+.delete-modal-inner h2 {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.delete-modal-inner p {
+  margin: 0 0 28px;
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.delete-modal-inner p strong {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.delete-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.delete-modal-actions .btn-cancel {
+  padding: 11px 28px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.delete-modal-actions .btn-cancel:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.btn-confirm-delete {
+  padding: 11px 28px;
+  border: none;
+  border-radius: 8px;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.btn-confirm-delete:hover {
+  background: #dc2626;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+}

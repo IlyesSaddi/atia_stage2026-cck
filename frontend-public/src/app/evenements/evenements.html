@@ -1,0 +1,61 @@
+<div class="dashboard-layout">
+  <app-membre-menu></app-membre-menu>
+  <div class="dashboard-layout__main">
+    <app-membre-header></app-membre-header>
+    <main class="dashboard-layout__content ev-page">
+
+      <div class="ev-tabs">
+        <button class="ev-tab"
+          [class.ev-tab--active]="activeTab === 'avenir'"
+          (click)="setTab('avenir')">
+          À venir ({{ aVenir.length }})
+        </button>
+        <button class="ev-tab"
+          [class.ev-tab--active]="activeTab === 'passes'"
+          (click)="setTab('passes')">
+          Passés ({{ passes.length }})
+        </button>
+      </div>
+
+      <div class="ev-grid">
+        @for (ev of activeEvents; track ev.id) {
+          <article class="ev-card" [routerLink]="['/evenements', ev.id]">
+            <div class="ev-card__img-wrap">
+             <img class="ev-card__img"
+  [src]="ev.imageStr || 'assets/default-event.jpg'"
+  [alt]="ev.titre" loading="lazy" />
+              <span class="ev-card__badge"
+                [style.background]="getBadgeColor(ev.type)">
+                {{ ev.type }}
+              </span>
+            </div>
+            <div class="ev-card__body">
+              <h3 class="ev-card__title">{{ ev.titre }}</h3>
+              <p class="ev-card__meta">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                {{ formatDate(ev.date) }}
+              </p>
+              <p class="ev-card__meta">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                  <circle cx="12" cy="9" r="2.5"/>
+                </svg>
+                {{ ev.lieu }}
+              </p>
+            </div>
+          </article>
+        }
+      </div>
+
+    </main>
+  </div>
+</div>

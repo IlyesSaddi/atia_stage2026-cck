@@ -1,0 +1,215 @@
+<div class="dashboard-layout">
+  <app-membre-menu></app-membre-menu>
+  <div class="dashboard-layout__main">
+    <app-membre-header></app-membre-header>
+    <main class="dashboard-layout__content det-page">
+
+      @if (evenement) {
+
+        <a class="det-back" routerLink="/evenements">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+          Retour aux événements
+        </a>
+
+        
+        <div class="det-cover">
+          <img class="det-cover__img"
+            [src]="evenement.imageStr || 'assets/default-event.jpg'"
+            [alt]="evenement.titre" />
+          <div class="det-cover__overlay"></div>
+
+          <div class="det-cover__date-badge">
+            <span class="det-cover__date-day">{{ evenement.date | date:'d' }}</span>
+            <span class="det-cover__date-month">{{ evenement.date | date:'MMM yyyy' | uppercase }}</span>
+          </div>
+
+          <div class="det-cover__bottom">
+            <div class="det-cover__badges">
+              <span class="det-cover__badge-type"
+                [style.background]="getBadgeColor(evenement.type)">
+                {{ evenement.type }}
+              </span>
+              <span class="det-cover__badge-status"
+                [class.det-cover__badge-status--passe]="isPasse">
+                {{ isPasse ? 'Passé' : 'À venir' }}
+              </span>
+            </div>
+            <h1 class="det-cover__title">{{ evenement.titre }}</h1>
+          </div>
+        </div>
+
+      
+        <div class="det-info-grid">
+          <div class="det-card">
+            <p class="det-card__label">INFORMATIONS</p>
+            <div class="det-info-row">
+              <div class="det-info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                  viewBox="0 0 24 24" fill="none" stroke="#1a2e4a"
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </div>
+              <div>
+                <p class="det-info-label">DATE</p>
+                <p class="det-info-value">{{ formatDate(evenement.date) }}</p>
+              </div>
+            </div>
+            <div class="det-info-row">
+              <div class="det-info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                  viewBox="0 0 24 24" fill="none" stroke="#1a2e4a"
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
+              <div>
+                <p class="det-info-label">HEURE</p>
+                <p class="det-info-value">{{ evenement.heure }}</p>
+              </div>
+            </div>
+            <div class="det-info-row">
+              <div class="det-info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                  viewBox="0 0 24 24" fill="none" stroke="#1a2e4a"
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                  <circle cx="12" cy="9" r="2.5"/>
+                </svg>
+              </div>
+              <div>
+                <p class="det-info-label">LIEU</p>
+                <p class="det-info-value">{{ evenement.lieu }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="det-card">
+            <p class="det-card__label">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                style="margin-right:6px;vertical-align:middle">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+              À PROPOS DE L'ÉVÉNEMENT
+            </p>
+            <p class="det-description">{{ evenement.description }}</p>
+          </div>
+        </div>
+
+       
+        @if (isPasse) {
+          <div class="det-avis-section">
+
+            <div class="det-avis-section__header">
+              <div class="det-avis-section__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  viewBox="0 0 24 24" fill="none" stroke="#1a2e4a"
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                </svg>
+              </div>
+              <div>
+                <h2 class="det-avis-section__title">Avis des membres</h2>
+                <p class="det-avis-section__count">
+                  {{ avisList.length }} avis publié{{ avisList.length > 1 ? 's' : '' }}
+                </p>
+              </div>
+            </div>
+
+            @if (!dejaAvis) {
+              <div class="det-avis-form-card">
+                <textarea class="det-avis-textarea"
+                  placeholder="Partagez votre expérience sur cet événement..."
+                  rows="4"
+                  [(ngModel)]="nouveauAvis">
+                </textarea>
+                <div class="det-avis-form-footer">
+                  <button class="det-avis-btn"
+                    [disabled]="!nouveauAvis.trim() || envoiEnCours"
+                    (click)="soumettreAvis()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="22" y1="2" x2="11" y2="13"/>
+                      <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                    {{ envoiEnCours ? 'Envoi...' : 'Publier mon avis' }}
+                  </button>
+                </div>
+              </div>
+            }
+
+            @if (avisList.length === 0) {
+              <div class="det-avis-empty-card">
+                <p>Aucun avis pour le moment. Soyez le premier à partager votre expérience.</p>
+              </div>
+            }
+
+            @for (avis of avisList; track avis.id) {
+              <div class="det-avis-item-card">
+                <div class="det-avis-item-card__avatar">
+                  {{ (avis.membre?.prenom?.[0] ?? '') | uppercase }}
+                </div>
+                <div class="det-avis-item-card__body">
+                  <div class="det-avis-item-card__top">
+                    <span class="det-avis-item-card__name">
+                      {{ avis.membre?.prenom | titlecase }}
+                      {{ avis.membre?.nom?.[0] | uppercase }}.
+                    </span>
+                    <span class="det-avis-item-card__date">
+                      {{ avis.dateAvis | date:'d MMMM yyyy' }}
+                    </span>
+                  </div>
+                  <p class="det-avis-item-card__text">{{ avis.contenu }}</p>
+                </div>
+              </div>
+            }
+
+          </div>
+        }
+
+      }
+    </main>
+  </div>
+</div>
+
+@if (showMerciModal) {
+  <div class="merci-overlay" (click)="showMerciModal = false">
+    <div class="merci-card" (click)="$event.stopPropagation()">
+      <div class="merci-sparkles">
+        <span class="merci-sparkle merci-sparkle--1">✦</span>
+        <span class="merci-sparkle merci-sparkle--2">✦</span>
+        <span class="merci-sparkle merci-sparkle--3">✦</span>
+        <span class="merci-sparkle merci-sparkle--4">✦</span>
+        <span class="merci-sparkle merci-sparkle--5">✦</span>
+        <span class="merci-sparkle merci-sparkle--6">✦</span>
+      </div>
+      <div class="merci-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36"
+          viewBox="0 0 24 24" fill="none" stroke="#ffffff"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <h2 class="merci-title">Avis publié !</h2>
+      <p class="merci-sub">
+        Votre retour enrichit notre communauté.<br>
+        Chaque expérience partagée nous aide à bâtir<br>
+        de meilleurs événements pour tous.
+      </p>
+      <div class="merci-divider"></div>
+      <p class="merci-quote">" La communauté ATIA grandit grâce à vous. "</p>
+      <button class="merci-btn" (click)="showMerciModal = false">Continuer</button>
+    </div>
+  </div>
+}

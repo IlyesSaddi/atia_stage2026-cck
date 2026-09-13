@@ -1,0 +1,30 @@
+<div class="toast-container">
+  <div
+    *ngFor="let toast of toasts"
+    class="toast-card"
+    [ngClass]="'toast-' + toast.type"
+  >
+    <div class="toast-icon-wrapper">
+      <svg
+        class="toast-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="getIconPath(toast.type)" />
+      </svg>
+    </div>
+
+    <div class="toast-content">
+      <div class="toast-header">
+        <span class="toast-title">{{ toast.title }}</span>
+        <button class="toast-close" (click)="close(toast.id)" aria-label="Fermer">
+          &times;
+        </button>
+      </div>
+
+      <p class="toast-message">{{ toast.message }}</p>
+    </div>
+  </div>
+</div>

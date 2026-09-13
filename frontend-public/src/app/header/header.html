@@ -1,0 +1,36 @@
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" routerLink="/" fragment="accueil" aria-label="ATIA - Accueil">
+      <img src="assets/images/atia_logo.png" alt="Logo ATIA" class="brand-logo" />
+    </a>
+
+    <button
+      type="button"
+      class="menu-toggle"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="isMenuOpen"
+      aria-label="Ouvrir le menu"
+    >
+      <span class="menu-icon" [class.is-open]="isMenuOpen"></span>
+    </button>
+
+    <nav class="main-nav" [class.is-open]="isMenuOpen" aria-label="Navigation principale">
+      <a routerLink="/" fragment="a-propos" class="nav-link" (click)="closeMenu()">L'ATIA</a>
+      <a routerLink="/" fragment="bureau-executif" class="nav-link" (click)="closeMenu()">Bureau Executif</a>
+      <a routerLink="/" fragment="evenements" class="nav-link" (click)="closeMenu()">Evenements</a>
+      <a routerLink="/" fragment="partenaires" class="nav-link" (click)="closeMenu()">Partenaires</a>
+      <a routerLink="/" fragment="adhesion" class="nav-link" (click)="closeMenu()">Adhesion</a>
+      <a routerLink="/" fragment="contact" class="nav-link" (click)="closeMenu()">Contact</a>
+
+      <a routerLink="/espace-membre" class="member-button member-button--mobile" (click)="closeMenu()">Espace Membre</a>
+    </nav>
+
+    <div class="header-actions">
+      <a routerLink="/espace-membre" class="member-button member-button--desktop">Espace Membre</a>
+    </div>
+  </div>
+
+  @if (isMenuOpen) {
+    <div class="menu-backdrop" (click)="closeMenu()"></div>
+  }
+</header>

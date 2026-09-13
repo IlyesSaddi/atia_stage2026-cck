@@ -1,0 +1,113 @@
+<header class="header" (click)="closeMenus()">
+
+  <!-- Left: Title -->
+  <div class="header-left">
+    <div class="header-greeting">
+      <span class="greeting-text">Bonjour, <strong>Administrateur</strong> 👋</span>
+      <span class="greeting-date">{{ today }}</span>
+    </div>
+  </div>
+
+  <!-- Right -->
+  <div class="header-right">
+
+    <!-- Search -->
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Rechercher..." />
+    </div>
+
+    <div class="header-divider"></div>
+
+    <!-- Notifications -->
+    <div class="notif-wrapper" (click)="$event.stopPropagation()">
+      <button class="icon-btn notif-btn" (click)="toggleNotifications()">
+        <i class="fas fa-bell"></i>
+        <span class="notif-count" *ngIf="notifCount > 0">{{ notifCount }}</span>
+      </button>
+
+      <div class="notif-dropdown" [class.open]="showNotifPanel">
+        <div class="dropdown-header">
+          <span>Notifications</span>
+          <button class="mark-all" (click)="toutMarquerLues()">Tout lire</button>
+        </div>
+
+        <ul class="notif-list">
+          <li class="notif-item"
+              *ngFor="let n of notifications"
+              [class.unread]="!n.lu"
+              (click)="marquerLue(n)">
+            <div class="notif-icon blue">
+              <span>{{ getIcon(n.type) }}</span>
+            </div>
+            <div class="notif-body">
+              <p>{{ n.message }}</p>
+              <span>{{ formatDate(n.dateCreation) }}</span>
+            </div>
+            <div class="unread-dot" *ngIf="!n.lu"></div>
+          </li>
+
+          <li class="notif-empty" *ngIf="notifications.length === 0">
+            Aucune notification
+          </li>
+        </ul>
+
+        <div class="dropdown-footer">
+          <a href="#">Voir toutes les notifications</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile -->
+    <div class="profile-wrapper" (click)="$event.stopPropagation(); toggleUserMenu()">
+
+      <div class="avatar-wrap">
+        <div class="avatar-fallback">A</div>
+        <span class="online-dot"></span>
+      </div>
+
+      <div class="profile-info">
+        <span class="profile-name">Administrateur</span>
+        <span class="profile-role">
+          <span class="role-badge">Super Admin</span>
+        </span>
+      </div>
+
+      <i class="fas fa-chevron-down chevron-icon" [class.rotated]="showUserMenu"></i>
+
+      <div class="profile-dropdown" [class.open]="showUserMenu" (click)="$event.stopPropagation()">
+        <div class="profile-dropdown-head">
+          <div class="dropdown-avatar-fallback">A</div>
+          <div>
+            <div class="dropdown-name">Administrateur</div>
+            <div class="dropdown-email">admin&#64;atia.org</div>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <ul class="dropdown-menu-list">
+          <li>
+            <a class="dropdown-item" href="/profil">
+              <i class="fas fa-user-circle"></i> Voir le profil
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="/settings">
+              <i class="fas fa-cog"></i> Paramètres
+            </a>
+          </li>
+          <div class="dropdown-divider"></div>
+          <li>
+            <a class="dropdown-item logout" (click)="logout()">
+              <i class="fas fa-sign-out-alt"></i> Déconnexion
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay" [class.show]="showNotifPanel || showUserMenu" (click)="closeMenus()"></div>
+
+</header>

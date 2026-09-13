@@ -1,0 +1,36 @@
+# ══════════════════════════════════════════
+# ATIA CCK — .gitignore
+# ══════════════════════════════════════════
+
+# ── Credentials & Secrets (NE JAMAIS COMMITER) ──
+config/db.php
+
+# ── Node modules (681 Mo inutiles) ──
+frontend-public/node_modules/
+frontend-admin/node_modules/
+node_modules/
+
+# ── Angular build cache ──
+frontend-public/.angular/
+frontend-admin/.angular/
+frontend-public/dist/
+frontend-admin/dist/
+
+# ── OS files ──
+.DS_Store
+Thumbs.db
+*.log
+
+# ── IDE ──
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── PHP ──
+*.cache
+/vendor/
+
+# ── Temp / test ──
+/tmp/
+*.tmp

@@ -1,0 +1,576 @@
+<div class="page">
+
+  <div class="glow glow--amber" aria-hidden="true"></div>
+  <div class="glow glow--blue" aria-hidden="true"></div>
+
+  <div class="wrapper">
+
+    
+    <div class="form-header" *ngIf="!submitted">
+      <button class="btn-back" (click)="retourAccueil()" aria-label="Retour à l'accueil">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+      </button>
+      <div class="form-header-text">
+        <h1 class="form-title">Demande d'adhésion</h1>
+        <p class="form-subtitle form-subtitle--desktop">Rejoignez la communauté tunisienne de l'IA</p>
+        <p class="form-subtitle form-subtitle--mobile">Étape {{ currentStep }} sur 5</p>
+      </div>
+    </div>
+
+    <!-- ─── BARRE DE PROGRESSION (pastilles visibles sur PC uniquement) ─── -->
+    <div class="progress-bar-wrap" *ngIf="!submitted" aria-hidden="true">
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" [style.width.%]="progressPercent"></div>
+      </div>
+      <div class="steps-row">
+        <div
+          *ngFor="let n of [1, 2, 3, 4, 5]"
+          class="step-dot"
+          [class.active]="n === currentStep"
+          [class.done]="n < currentStep"
+        >
+          {{ n }}
+        </div>
+      </div>
+    </div>
+
+    <div class="card" *ngIf="!submitted">
+
+      <!-- ─── STEP 1 : Informations personnelles ─── -->
+      <div class="step-panel" *ngIf="currentStep === 1">
+        <div class="section-header">
+          <h2 class="section-title">Informations personnelles</h2>
+          <div class="section-divider"></div>
+        </div>
+
+        <div class="fields-grid">
+          <div class="field">
+            <label class="field-label" for="nom">Nom <span class="req">*</span></label>
+            <input
+              class="field-input"
+              [class.field-input--error]="step1Errors['nom']"
+              id="nom"
+              type="text"
+              placeholder="Votre nom"
+              autocomplete="family-name"
+              [(ngModel)]="formData.nom"
+              (input)="clearFieldError('nom')"
+              (blur)="validateField('nom')"
+            />
+            <p class="field-error" *ngIf="step1Errors['nom']">{{ step1Errors['nom'] }}</p>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="prenom">Prénom <span class="req">*</span></label>
+            <input
+              class="field-input"
+              [class.field-input--error]="step1Errors['prenom']"
+              id="prenom"
+              type="text"
+              placeholder="Votre prénom"
+              autocomplete="given-name"
+              [(ngModel)]="formData.prenom"
+              (input)="clearFieldError('prenom')"
+              (blur)="validateField('prenom')"
+            />
+            <p class="field-error" *ngIf="step1Errors['prenom']">{{ step1Errors['prenom'] }}</p>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="cin">CIN <span class="req">*</span></label>
+            <input
+              class="field-input"
+              [class.field-input--error]="step1Errors['cin']"
+              id="cin"
+              type="text"
+              placeholder="Votre CIN (8 chiffres)"
+              autocomplete="off"
+              [(ngModel)]="formData.cin"
+              (input)="clearFieldError('cin')"
+              (blur)="validateField('cin')"
+            />
+            <p class="field-error" *ngIf="step1Errors['cin']">{{ step1Errors['cin'] }}</p>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="email">Email <span class="req">*</span></label>
+            <input
+              class="field-input"
+              [class.field-input--error]="step1Errors['email']"
+              id="email"
+              type="email"
+              placeholder="email@exemple.com"
+              autocomplete="email"
+              [(ngModel)]="formData.email"
+              (input)="clearFieldError('email')"
+              (blur)="validateField('email')"
+            />
+            <p class="field-error" *ngIf="step1Errors['email']">{{ step1Errors['email'] }}</p>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="tel">Téléphone <span class="req">*</span></label>
+            <input
+              class="field-input"
+              [class.field-input--error]="step1Errors['tel']"
+              id="tel"
+              type="tel"
+              placeholder="+216 XX XXX XXX"
+              autocomplete="tel"
+              [(ngModel)]="formData.tel"
+              (input)="clearFieldError('tel')"
+              (blur)="validateField('tel')"
+            />
+            <p class="field-error" *ngIf="step1Errors['tel']">{{ step1Errors['tel'] }}</p>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="dob">Date de naissance <span class="req">*</span></label>
+            <input
+              class="field-input"
+              [class.field-input--error]="step1Errors['dob']"
+              id="dob"
+              type="date"
+              [(ngModel)]="formData.dob"
+              (change)="validateField('dob')"
+            />
+            <p class="field-error" *ngIf="step1Errors['dob']">{{ step1Errors['dob'] }}</p>
+          </div>
+        </div>
+
+        <div class="field field--full statut-section">
+          <label class="field-label">Statut <span class="req">*</span></label>
+          <div class="statut-grid">
+            <div
+              *ngFor="let option of statutOptions"
+              class="statut-card"
+              [class.selected]="formData.statut === option.value"
+              (click)="selectStatut(option.value)"
+            >
+              <div class="statut-card-inner">
+                <ng-container [ngSwitch]="option.value">
+
+                  <svg *ngSwitchCase="'etudiant'" xmlns="http://www.w3.org/2000/svg"
+                       width="28" height="28" viewBox="0 0 24 24"
+                       fill="none" stroke="currentColor" stroke-width="1.5"
+                       stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                    <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                  </svg>
+
+                  <svg *ngSwitchCase="'professionnel'" xmlns="http://www.w3.org/2000/svg"
+                       width="28" height="28" viewBox="0 0 24 24"
+                       fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect width="20" height="14" x="2" y="7" rx="2"/>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                  </svg>
+
+                  <svg *ngSwitchCase="'chercheur'" xmlns="http://www.w3.org/2000/svg"
+                       width="28" height="28" viewBox="0 0 24 24"
+                       fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="m21 21-4.35-4.35"/>
+                  </svg>
+
+                  <svg *ngSwitchCase="'enseignant'" xmlns="http://www.w3.org/2000/svg"
+                       width="28" height="28" viewBox="0 0 24 24"
+                       fill="none" stroke="currentColor" stroke-width="1.5"
+                       stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2"/>
+                    <path d="M8 21h8M12 17v4"/>
+                  </svg>
+
+                </ng-container>
+                <span>{{ option.label }}</span>
+              </div>
+            </div>
+          </div>
+          <p class="field-error field-error--statut" *ngIf="step1Errors['statut']">{{ step1Errors['statut'] }}</p>
+        </div>
+
+        <div class="nav-row nav-row--right">
+          <button class="btn btn--primary" (click)="goTo(2)" [disabled]="checkingDuplicates">
+            <span *ngIf="checkingDuplicates" class="btn-spinner"></span>
+            <span>{{ checkingDuplicates ? 'Vérification...' : 'Suivant →' }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ─── STEP 2 : Documents justificatifs ─── -->
+      <div class="step-panel" *ngIf="currentStep === 2">
+        <div class="section-header">
+          <h2 class="section-title">Documents justificatifs</h2>
+          <div class="section-divider"></div>
+        </div>
+
+        <div class="upload-group">
+          <label class="field-label">CIN  <span class="req">*</span></label>
+          <div
+            class="upload-zone"
+            [class.drag-over]="cinDragOver"
+            [class.has-file]="cinHasFile"
+            (click)="fileCin.click()"
+            (dragover)="onCinDragOver($event)"
+            (dragleave)="onCinDragLeave()"
+            (drop)="onCinDrop($event)"
+          >
+            <input
+              #fileCin
+              type="file"
+              accept=".pdf,.jpg,.jpeg,.png"
+              multiple
+              hidden
+              (change)="onCinChange($event)"
+            />
+            <div class="upload-zone-inner" [class.has-preview]="cinPreview">
+              <ng-container *ngIf="cinPreview; else cinEmpty">
+                <div class="preview-card">
+                  <img [src]="cinPreview" class="upload-preview" alt="Aperçu CIN" />
+                  <div class="preview-overlay">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                      <circle cx="12" cy="13" r="4"/>
+                    </svg>
+                    <span>Changer</span>
+                  </div>
+                  <div class="preview-badge">✓ {{ cinFileName }}</div>
+                </div>
+              </ng-container>
+              <ng-template #cinEmpty>
+                <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+                <p class="upload-text">Glissez ici ou <span class="upload-link">parcourir</span></p>
+                <p class="upload-hint">PDF, JPG ou PNG — Max 5 Mo</p>
+                <p class="upload-filename" *ngIf="cinHasFile">✓ {{ cinFileName }}</p>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+
+        <div class="upload-group">
+          <label class="field-label">Justificatif (carte étudiant / attestation)</label>
+          <div
+            class="upload-zone"
+            [class.drag-over]="justifDragOver"
+            [class.has-file]="justifHasFile"
+            (click)="fileJustif.click()"
+            (dragover)="onJustifDragOver($event)"
+            (dragleave)="onJustifDragLeave()"
+            (drop)="onJustifDrop($event)"
+          >
+            <input
+              #fileJustif
+              type="file"
+              accept=".pdf,.jpg,.jpeg,.png"
+              hidden
+              (change)="onJustifChange($event)"
+            />
+            <div class="upload-zone-inner" [class.has-preview]="justifPreview">
+              <ng-container *ngIf="justifPreview; else justifEmpty">
+                <div class="preview-card">
+                  <img [src]="justifPreview" class="upload-preview" alt="Aperçu justificatif" />
+                  <div class="preview-overlay">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                      <circle cx="12" cy="13" r="4"/>
+                    </svg>
+                    <span>Changer</span>
+                  </div>
+                  <div class="preview-badge">✓ {{ justifFileName }}</div>
+                </div>
+              </ng-container>
+              <ng-template #justifEmpty>
+                <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+                <p class="upload-text">Glissez ici ou <span class="upload-link">parcourir</span></p>
+                <p class="upload-hint">PDF, JPG ou PNG — Max 5 Mo</p>
+                <p class="upload-filename" *ngIf="justifHasFile">✓ {{ justifFileName }}</p>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-row nav-row--between">
+          <button class="btn btn--ghost" (click)="goTo(1)">← Retour</button>
+          <button class="btn btn--primary" (click)="goTo(3)">Suivant →</button>
+        </div>
+      </div>
+
+      <!-- ─── STEP 3 : Centres d'intérêt ─── -->
+      <div class="step-panel" *ngIf="currentStep === 3">
+        <div class="section-header">
+          <h2 class="section-title">Centres d'intérêt</h2>
+          <div class="section-divider"></div>
+          <p class="section-desc">Sélectionnez les domaines qui vous passionnent</p>
+        </div>
+
+        <div class="interests-grid">
+          <label
+            *ngFor="let interest of interests"
+            class="interest-chip"
+            [class.selected]="interest.selected"
+            (click)="toggleInterest(interest)"
+          >
+            <span>{{ interest.label }}</span>
+          </label>
+        </div>
+
+       
+
+        <div class="nav-row nav-row--between" style="margin-top: 2rem;">
+          <button class="btn btn--ghost" (click)="goTo(2)">← Retour</button>
+          <button class="btn btn--primary" (click)="goTo(4)">Suivant →</button>
+        </div>
+      </div>
+
+      <!-- ─── STEP 4 : Règlement & Statuts ─── -->
+      <div class="step-panel" *ngIf="currentStep === 4">
+        <div class="section-header">
+          <h2 class="section-title">Règlement &amp; Statuts</h2>
+          <div class="section-divider"></div>
+          <p class="section-desc">Veuillez lire et accepter les documents suivants</p>
+        </div>
+
+        <div class="doc-card" (click)="ouvrirStatut()">
+          <div class="doc-card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
+          <div class="doc-card-text">
+            <span class="doc-card-title">Statuts et Règlement Intérieur ATIA</span>
+            <span class="doc-card-hint">Cliquez pour consulter le document (PDF)</span>
+          </div>
+          <span class="doc-card-arrow">→</span>
+        </div>
+
+        <div class="consent-list">
+
+          <label class="consent-item" [class.checked]="formData.consentStatut">
+            <input type="checkbox" [(ngModel)]="formData.consentStatut" hidden/>
+            <div class="consent-check" [class.active]="formData.consentStatut">
+              <svg *ngIf="formData.consentStatut"
+                   xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                   viewBox="0 0 24 24" fill="none" stroke="white"
+                   stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <span>
+              J'ai lu et j'accepte les <strong>statuts de l'ATIA</strong>
+              et m'engage à les respecter.
+            </span>
+          </label>
+
+          <label class="consent-item" [class.checked]="formData.consentReglement">
+            <input type="checkbox" [(ngModel)]="formData.consentReglement" hidden/>
+            <div class="consent-check" [class.active]="formData.consentReglement">
+              <svg *ngIf="formData.consentReglement"
+                   xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                   viewBox="0 0 24 24" fill="none" stroke="white"
+                   stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <span>
+              J'accepte le <strong>règlement intérieur</strong> de l'association
+              et je m'engage à payer la cotisation annuelle.
+            </span>
+          </label>
+
+        </div>
+
+        <div class="nav-row nav-row--between">
+          <button class="btn btn--ghost" (click)="goTo(3)">← Retour</button>
+          <button
+            class="btn btn--primary"
+            (click)="goTo(5)"
+            [disabled]="!formData.consentStatut || !formData.consentReglement"
+            [style.opacity]="(!formData.consentStatut || !formData.consentReglement) ? '0.45' : '1'"
+          >
+            Suivant →
+          </button>
+        </div>
+      </div>
+
+      <!-- ─── STEP 5 : Paiement ─── -->
+      <div class="step-panel" *ngIf="currentStep === 5">
+        <div class="section-header">
+          <h2 class="section-title">Paiement</h2>
+          <div class="section-divider"></div>
+        </div>
+
+        <div class="bank-card">
+          <div class="bank-card-header">
+            <div class="bank-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                   viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="22" x2="21" y2="22"/>
+                <line x1="6" y1="18" x2="6" y2="11"/>
+                <line x1="10" y1="18" x2="10" y2="11"/>
+                <line x1="14" y1="18" x2="14" y2="11"/>
+                <line x1="18" y1="18" x2="18" y2="11"/>
+                <polygon points="12 2 20 7 4 7"/>
+              </svg>
+            </div>
+            <div>
+              <p class="bank-name">Compte Bancaire ATIA</p>
+              <p class="bank-sub">Amen Bank</p>
+            </div>
+          </div>
+
+          <div class="bank-rib">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                 viewBox="0 0 24 24" fill="none" stroke="#64748b"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+              <line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+            <span class="bank-rib-label">RIB</span>
+            <span class="bank-rib-value">07 020 00 92 105 50 30 65 16</span>
+          </div>
+
+        </div>
+
+        <div class="montant-row">
+          <span class="montant-row__label">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 8v4l3 3"/>
+            </svg>
+            Montant à régler
+          </span>
+          <span class="montant-row__value">{{ montantAPayer() }} DT</span>
+        </div>
+
+        <div class="upload-group" style="margin-top: 1.5rem;">
+          <label class="field-label">
+            Reçu de paiement <span class="req">*</span>
+          </label>
+          <div
+            class="upload-zone"
+            [class.drag-over]="recuDragOver"
+            [class.has-file]="recuHasFile"
+            (click)="fileRecu.click()"
+            (dragover)="onRecuDragOver($event)"
+            (dragleave)="onRecuDragLeave()"
+            (drop)="onRecuDrop($event)"
+          >
+            <input
+              #fileRecu
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              hidden
+              (change)="onRecuChange($event)"
+            />
+            <div class="upload-zone-inner" [class.has-preview]="recuPreview">
+              <ng-container *ngIf="recuPreview; else recuEmpty">
+                <div class="preview-card">
+                  <img [src]="recuPreview" class="upload-preview" alt="Aperçu reçu" />
+                  <div class="preview-overlay">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                      <circle cx="12" cy="13" r="4"/>
+                    </svg>
+                    <span>Changer</span>
+                  </div>
+                  <div class="preview-badge">✓ {{ recuFileName }}</div>
+                </div>
+              </ng-container>
+              <ng-template #recuEmpty>
+                <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+                <p class="upload-text">
+                  Glissez ici ou <span class="upload-link">parcourir</span>
+                </p>
+                <p class="upload-hint">JPG ou PNG — Max 5 Mo</p>
+                <p class="upload-filename" *ngIf="recuHasFile">✓ {{ recuFileName }}</p>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+
+        <div class="ia-rejet-card" *ngIf="iaRejet.visible">
+          <div class="ia-rejet-header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Votre dossier n'a pas pu être traité
+          </div>
+          <ul class="ia-rejet-motifs" *ngIf="iaRejet.motifs.length > 0">
+            <li *ngFor="let motif of iaRejet.motifs">{{ motif }}</li>
+          </ul>
+          <p class="ia-rejet-hint">Veuillez vérifier vos informations et soumettre à nouveau.</p>
+        </div>
+
+        <div class="nav-row nav-row--between">
+          <button class="btn btn--ghost" (click)="goTo(4)">← Retour</button>
+          <button
+            class="btn btn--submit"
+            (click)="submitForm()"
+            [disabled]="!recuHasFile"
+            [style.opacity]="!recuHasFile ? '0.45' : '1'"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            Envoyer ma demande
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="success-msg" *ngIf="submitted">
+      <div class="success-icon">✅</div>
+      <h2>Demande envoyée !</h2>
+      <p>Votre demande d'adhésion a bien été reçue. Nous vous contacterons prochainement.</p>
+      <a href="/" class="btn btn--primary" style="margin-top:1.5rem; display:inline-flex;">← Retour au site</a>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="processing-overlay" *ngIf="isProcessing">
+  <div class="processing-card">
+    <div class="processing-spinner">
+      <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="25" cy="25" r="20" fill="none" stroke="#e2e8f0" stroke-width="4"/>
+        <circle cx="25" cy="25" r="20" fill="none" stroke="#0c244d" stroke-width="4"
+          stroke-linecap="round" stroke-dasharray="80 200" stroke-dashoffset="0"
+          class="spinner-arc"/>
+      </svg>
+    </div>
+    <p class="processing-title">Traitement en cours</p>
+    <p class="processing-msg">Vérification de vos documents…</p>
+  </div>
+</div>

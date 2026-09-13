@@ -1,0 +1,234 @@
+<app-menu></app-menu>
+<app-header></app-header>
+
+<main class="main-content">
+  <div class="content">
+    <div class="content-header">
+      <h1></h1>
+      <button class="btn-add" type="button" (click)="openAddModal()">
+        <i class="fas fa-plus"></i>
+        Ajouter un partenaire
+      </button>
+    </div>
+
+   
+    <div class="toolbar">
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="text" placeholder="Rechercher par nom"
+               [ngModel]="searchTerm"
+               (ngModelChange)="onSearchChange($event)" />
+      </div>
+      <div class="dropdown-wrapper">
+        <button class="dropdown-trigger" (click)="toggleTypeDropdown($event)">
+          <span>{{ getTypeFilterLabel() }}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round"
+               [style.transform]="typeDropdownOpen ? 'rotate(180deg)' : 'rotate(0)'">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="dropdown-menu" *ngIf="typeDropdownOpen">
+          <div class="dropdown-item"
+               *ngFor="let opt of typeFilterOptions"
+               [class.selected]="selectedType === opt.value"
+               (click)="selectType(opt.value, $event)">
+            <svg *ngIf="selectedType === opt.value"
+                 xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span *ngIf="selectedType !== opt.value" class="check-placeholder"></span>
+            {{ opt.label }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="card">
+      <div class="table-wrap">
+        <table class="partner-table">
+          <thead>
+            <tr>
+              <th>PARTENAIRE</th>
+              <th>TYPE</th>
+              <th>EMAIL</th>
+              <th>DATE PARTENARIAT</th>
+              <th>ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of filteredPartenaires">
+              <td>
+                <div class="partner-cell">
+                  <div class="avatar av-{{ p.type | lowercase }}">
+                    {{ p.nom | slice:0:2 | uppercase }}
+                  </div>
+                  <span class="partner-name">{{ p.nom }}</span>
+                </div>
+              </td>
+              <td><span class="badge badge-{{ p.type | lowercase }}">{{ p.type }}</span></td>
+              <td class="muted">{{ p.email }}</td>
+              <td class="muted">{{ p.datePartenariat }}</td>
+              <td>
+                <button class="action-btn btn-edit" type="button" (click)="openEditModal(p)">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="action-btn btn-delete" type="button" (click)="deletePartner(p)">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <div class="partner-modal-overlay" *ngIf="isAddModalOpen" (click)="closeAddModal()">
+    <div class="partner-modal-card" (click)="$event.stopPropagation()">
+      <div class="partner-modal-inner">
+        <div class="form-container">
+          <div class="form-header">
+            <h1>{{ isEditMode ? 'Modifier le partenaire' : 'Nouveau Partenaire' }}</h1>
+            <p>{{ isEditMode
+                  ? 'Modifiez les informations du partenaire.'
+                  : 'Ajoutez les informations relatives au nouveau partenaire de l\'ATIA.' }}</p>
+          </div>
+
+          <form class="event-form" (ngSubmit)="isEditMode ? updatePartner() : addPartner()" #partnerForm="ngForm">
+
+            
+            <div class="form-group">
+              <label for="nom">Nom du partenaire <span class="required">*</span></label>
+              <input type="text" id="nom" name="nom"
+                     [(ngModel)]="newPartner.nom"
+                     placeholder="Entrez le nom de l'entreprise ou organisation" required />
+            </div>
+
+       
+            <div class="form-group">
+              <label for="type">Type de partenaire <span class="required">*</span></label>
+              <select id="type" name="type" [(ngModel)]="newPartner.type" required>
+                <option [ngValue]="null" disabled selected>Sélectionnez un type</option>
+                <option *ngFor="let t of typeOptions" [value]="t.value">{{ t.label }}</option>
+              </select>
+            </div>
+
+         
+            <div class="form-group">
+              <label for="siteweb">Site Web <span class="required">*</span></label>
+              <input type="url" id="siteweb" name="siteweb"
+                     [(ngModel)]="newPartner.siteweb"
+                     placeholder="https://www.exemple.com" />
+            </div>
+
+       
+            <div class="form-group">
+              <label for="email">Email <span class="required">*</span></label>
+              <input type="email" id="email" name="email"
+                     [(ngModel)]="newPartner.email"
+                     placeholder="contact@partenaire.com" required />
+            </div>
+
+           
+            <div class="form-group">
+              <label for="telephone">Téléphone</label>
+              <input type="tel" id="telephone" name="telephone"
+                     [(ngModel)]="newPartner.telephone"
+                     placeholder="+216 XX XXX XXX" />
+            </div>
+
+          
+            <div class="form-group">
+              <label for="datePartenariat">Date de partenariat <span class="required">*</span></label>
+              <input type="date" id="datePartenariat" name="datePartenariat"
+                     [(ngModel)]="newPartner.datePartenariat" required />
+            </div>
+
+            
+            <div class="form-group">
+              <label for="description">Description <span class="required">*</span></label>
+              <textarea id="description" name="description" rows="5"
+                        [(ngModel)]="newPartner.description"
+                        placeholder="Présentez brièvement le partenaire et la nature du partenariat..."
+                        required></textarea>
+            </div>
+
+         
+            <div class="form-group">
+              <label for="image">Logo du partenaire <span class="required" *ngIf="!isEditMode">*</span></label>
+              <div class="image-upload">
+                <input type="file" id="image" accept="image/*" (change)="onImageUpload($event)" />
+                <div class="upload-placeholder">
+
+                 
+                  <ng-container *ngIf="imagePath">
+                    <img [src]="imagePath" alt="Aperçu logo"
+                         style="max-height: 80px; border-radius: 8px; margin-bottom: 8px;" />
+                    <span>Nouvelle image sélectionnée</span>
+                  </ng-container>
+
+              
+                  <ng-container *ngIf="!imagePath && isEditMode && (newPartner.imageStr || newPartner.imageId)">
+                    <img [src]="newPartner.imageStr || ('/api/images/' + newPartner.imageId)" alt="Logo actuel"
+                         style="max-height: 80px; border-radius: 8px; margin-bottom: 8px;" />
+                    <span>Logo actuel — cliquez pour changer</span>
+                  </ng-container>
+
+                  <ng-container *ngIf="!imagePath && !(isEditMode && newPartner.image)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+                      <circle cx="9" cy="9" r="2"/>
+                      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                    </svg>
+                    <p>Cliquez pour uploader le logo</p>
+                    <span>PNG, JPG (Recommandé : Fond transparent)</span>
+                  </ng-container>
+
+                </div>
+              </div>
+            </div>
+
+          
+            <div class="form-actions">
+              <button type="button" class="btn-cancel" (click)="closeAddModal()">Annuler</button>
+              <button type="submit" class="btn-submit">
+                {{ isEditMode ? 'Modifier' : 'Enregistrer' }}
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="partner-modal-overlay" *ngIf="isDeleteModalOpen" (click)="closeDeleteModal()">
+    <div class="delete-modal-card" (click)="$event.stopPropagation()">
+      <div class="delete-modal-inner">
+        <div class="delete-icon-wrapper">
+          <i class="fas fa-trash-alt"></i>
+        </div>
+        <h2>Supprimer le partenaire</h2>
+        <p>Voulez-vous vraiment supprimer le partenaire
+          <strong>"{{ partenaireToDelete?.nom }}"</strong> ?
+        </p>
+        <div class="delete-modal-actions">
+          <button class="btn-cancel" type="button" (click)="closeDeleteModal()">Annuler</button>
+          <button class="btn-confirm-delete"  type="button" (click)="confirmDelete()">
+            <i class="fas fa-trash"></i> Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>

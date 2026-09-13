@@ -1,0 +1,78 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "cli": {
+    "packageManager": "npm",
+    "analytics": "5e96f713-075e-4c53-909b-cb2073a4eee5"
+  },
+  "newProjectRoot": "projects",
+  "projects": {
+    "ATIA-PUBLIC": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/main.ts",
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.css"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "baseHref": "/",
+              "optimization": {
+                "scripts": true,
+                "styles": true,
+                "fonts": false
+              },
+              "budgets": [
+               {
+  "type": "initial",
+  "maximumWarning": "1mb",
+  "maximumError": "2mb"
+},
+               {
+  "type": "anyComponentStyle",
+  "maximumWarning": "50kb",
+  "maximumError": "100kb"
+}
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "ATIA-PUBLIC:build:production"
+            },
+            "development": {
+              "buildTarget": "ATIA-PUBLIC:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        }
+      }
+    }
+  }
+}

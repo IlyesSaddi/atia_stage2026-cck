@@ -1,0 +1,198 @@
+# ============================================================
+# .htaccess — Configuration Apache 2 pour ATIA CCK
+# Routage intelligent : URLs REST → scripts PHP
+# Les URLs restent identiques à Spring Boot pour le frontend
+# ============================================================
+
+Options -Indexes
+ServerSignature Off
+RewriteEngine On
+
+# ============================================================
+# Bloquer accès direct au dossier config/
+# ============================================================
+RewriteRule ^config/ - [F,L]
+RewriteRule ^config$ - [F,L]
+
+# ============================================================
+# Routes AUTH
+# POST /api/admin/login  → api/auth.php?action=login-admin
+# POST /api/membres/login → api/auth.php?action=login-membre
+# ============================================================
+RewriteRule ^api/admin/login$           api/auth.php?action=login-admin [QSA,L]
+RewriteRule ^api/membres/login$         api/auth.php?action=login-membre [QSA,L]
+RewriteRule ^api/admin/save$            api/auth.php?action=save-admin [QSA,L]
+
+# ============================================================
+# Route VALIDATION adhésion (remplace Python port 8000)
+# POST /api/valider-adherent → validation.php
+# ============================================================
+RewriteRule ^api/valider-adherent$      api/validation.php [QSA,L]
+
+# ============================================================
+# Routes IMAGES
+# POST   /api/images/upload        → image.php?action=upload
+# GET    /api/images/details/{id}  → image.php?action=details&id={id}
+# GET    /api/images/{id}          → image.php?action=get&id={id}
+# DELETE /api/images/{id}          → image.php?action=delete&id={id}
+# ============================================================
+RewriteRule ^api/images/upload$              api/image.php?action=upload [QSA,L]
+RewriteRule ^api/images/details/([0-9]+)$    api/image.php?action=details&id=$1 [QSA,L]
+RewriteRule ^api/images/([0-9]+)$            api/image.php?action=get&id=$1 [QSA,L]
+
+# ============================================================
+# Routes MEMBRES
+# GET  /api/membres/all        → membres.php?action=all
+# GET  /api/membres/actifs     → membres.php?action=actifs
+# GET  /api/membres/expires    → membres.php?action=expires
+# GET  /api/membres/en-attente → membres.php?action=en-attente
+# POST /api/membres/ajouter    → membres.php?action=ajouter
+# PUT  /api/membres/activer/{id}   → membres.php?action=activer&id={id}
+# PUT  /api/membres/expirer/{id}   → membres.php?action=expirer&id={id}
+# PUT  /api/membres/update-contact/{id} → membres.php?action=update-contact&id={id}
+# PUT  /api/membres/{id}/password  → membres.php?action=change-password&id={id}
+# POST /api/membres/{id}/centres-interet → membres.php?action=add-centre&id={id}
+# DELETE /api/membres/{id}/centres-interet → membres.php?action=remove-centre&id={id}
+# GET  /api/membres/generer/{id}   → membres.php?action=generer&id={id}
+# GET  /api/membres/{id}           → membres.php?action=get&id={id}
+# ============================================================
+RewriteRule ^api/membres/all$                       api/membres.php?action=all [QSA,L]
+RewriteRule ^api/membres/actifs$                    api/membres.php?action=actifs [QSA,L]
+RewriteRule ^api/membres/expires$                   api/membres.php?action=expires [QSA,L]
+RewriteRule ^api/membres/en-attente$                api/membres.php?action=en-attente [QSA,L]
+RewriteRule ^api/membres/ajouter$                   api/membres.php?action=ajouter [QSA,L]
+RewriteRule ^api/membres/activer/([0-9]+)$          api/membres.php?action=activer&id=$1 [QSA,L]
+RewriteRule ^api/membres/expirer/([0-9]+)$          api/membres.php?action=expirer&id=$1 [QSA,L]
+RewriteRule ^api/membres/generer/([0-9]+)$          api/membres.php?action=generer&id=$1 [QSA,L]
+RewriteRule ^api/membres/update-contact/([0-9]+)$   api/membres.php?action=update-contact&id=$1 [QSA,L]
+RewriteRule ^api/membres/([0-9]+)/password$         api/membres.php?action=change-password&id=$1 [QSA,L]
+RewriteRule ^api/membres/([0-9]+)/centres-interet$  api/membres.php?action=manage-centre&id=$1 [QSA,L]
+RewriteRule ^api/membres/([0-9]+)$                  api/membres.php?action=get&id=$1 [QSA,L]
+
+# ============================================================
+# Routes EVENEMENTS
+# GET  /api/evenements/all      → evenements.php?action=all
+# GET  /api/evenements/{id}     → evenements.php?action=get&id={id}
+# POST /api/evenements/ajouter  → evenements.php?action=ajouter
+# PUT  /api/evenements/update   → evenements.php?action=update
+# DELETE /api/evenements/delete/{id} → evenements.php?action=delete&id={id}
+# ============================================================
+RewriteRule ^api/evenements/all$            api/evenements.php?action=all [QSA,L]
+RewriteRule ^api/evenements/ajouter$        api/evenements.php?action=ajouter [QSA,L]
+RewriteRule ^api/evenements/update$         api/evenements.php?action=update [QSA,L]
+RewriteRule ^api/evenements/delete/([0-9]+)$ api/evenements.php?action=delete&id=$1 [QSA,L]
+RewriteRule ^api/evenements/delete$         api/evenements.php?action=delete [QSA,L]
+RewriteRule ^api/evenements/([0-9]+)$       api/evenements.php?action=get&id=$1 [QSA,L]
+
+# ============================================================
+# Routes AVIS
+# GET  /api/avis/all                      → avis.php?action=all
+# GET  /api/avis/top                      → avis.php?action=top
+# GET  /api/avis/membre/{id}              → avis.php?action=by-membre&membreId={id}
+# GET  /api/avis/evenement/{id}           → avis.php?action=by-evenement&evenementId={id}
+# POST /api/avis                          → avis.php?action=ajouter
+# PUT  /api/avis/{id}                     → avis.php?action=modifier&id={id}
+# DELETE /api/avis/{id}                   → avis.php?action=supprimer&id={id}
+# ============================================================
+RewriteRule ^api/avis/all$                  api/avis.php?action=all [QSA,L]
+RewriteRule ^api/avis/top$                  api/avis.php?action=top [QSA,L]
+RewriteRule ^api/avis/membre/([0-9]+)$      api/avis.php?action=by-membre&membreId=$1 [QSA,L]
+RewriteRule ^api/avis/evenement/([0-9]+)$   api/avis.php?action=by-evenement&evenementId=$1 [QSA,L]
+RewriteRule ^api/avis/([0-9]+)$             api/avis.php?action=modifier&id=$1 [QSA,L]
+RewriteRule ^api/avis$                      api/avis.php?action=ajouter [QSA,L]
+
+# ============================================================
+# Routes PARTENAIRES
+# ============================================================
+RewriteRule ^api/partenaires/all$                api/partenaires.php?action=all [QSA,L]
+RewriteRule ^api/partenaires/ajouter$            api/partenaires.php?action=ajouter [QSA,L]
+RewriteRule ^api/partenaires/update$             api/partenaires.php?action=update [QSA,L]
+RewriteRule ^api/partenaires/search/nom/(.+)$    api/partenaires.php?action=search-nom&nom=$1 [QSA,L]
+RewriteRule ^api/partenaires/search/type/(.+)$   api/partenaires.php?action=search-type&type=$1 [QSA,L]
+RewriteRule ^api/partenaires/delete/([0-9]+)$    api/partenaires.php?action=delete&id=$1 [QSA,L]
+RewriteRule ^api/partenaires/delete$             api/partenaires.php?action=delete [QSA,L]
+RewriteRule ^api/partenaires/([0-9]+)$           api/partenaires.php?action=get&id=$1 [QSA,L]
+
+# ============================================================
+# Routes ADMINISTRATIF
+# ============================================================
+RewriteRule ^api/administratif/all$              api/administratif.php?action=all [QSA,L]
+RewriteRule ^api/administratif/ajouter$          api/administratif.php?action=ajouter [QSA,L]
+RewriteRule ^api/administratif/update$           api/administratif.php?action=update [QSA,L]
+RewriteRule ^api/administratif/delete/([0-9]+)$  api/administratif.php?action=delete&id=$1 [QSA,L]
+RewriteRule ^api/administratif/delete$           api/administratif.php?action=delete [QSA,L]
+RewriteRule ^api/administratif/([0-9]+)$         api/administratif.php?action=get&id=$1 [QSA,L]
+
+# ============================================================
+# Routes NOTIFICATIONS
+# ============================================================
+RewriteRule ^api/notifications/admin/([0-9]+)$   api/notifications.php?action=admin&adminId=$1 [QSA,L]
+RewriteRule ^api/notifications/membre/([0-9]+)$  api/notifications.php?action=membre&membreId=$1 [QSA,L]
+RewriteRule ^api/notifications/([0-9]+)/lire$    api/notifications.php?action=lire&id=$1 [QSA,L]
+# Note: SSE /subscribe remplacé par polling — retourne liste vide proprement
+RewriteRule ^api/notifications/subscribe/(.*)$   api/notifications.php?action=membre&membreId=$1 [QSA,L]
+
+# ============================================================
+# Routes STATS
+# ============================================================
+RewriteRule ^api/stats/dashboard$              api/stats.php?action=dashboard [QSA,L]
+RewriteRule ^api/stats/membres/evolution$      api/stats.php?action=evolution [QSA,L]
+RewriteRule ^api/stats/membres/distribution$   api/stats.php?action=distribution [QSA,L]
+
+# ============================================================
+# Routes CHATBOT
+# ============================================================
+RewriteRule ^api/chatbot/chat$   api/chatbot.php [QSA,L]
+
+# ============================================================
+# Routes RECOMMANDATIONS
+# ============================================================
+RewriteRule ^api/recommandations/sauvegardees/([0-9]+)$  api/recommandation.php?action=sauvegardees&membreId=$1 [QSA,L]
+RewriteRule ^api/recommandations/([0-9]+)$               api/recommandation.php?action=get&membreId=$1 [QSA,L]
+
+# ============================================================
+# Routes ADMIN (save admin)
+# ============================================================
+# (moved to AUTH section above)
+
+# ============================================================
+# Frontends Angular — SPA routing (toutes les autres URLs)
+# ============================================================
+# Assets compilés public/ servis depuis la racine (base href="/")
+RewriteCond %{DOCUMENT_ROOT}/public/$1 -f
+RewriteRule ^(.+)$ public/$1 [L]
+
+# Frontend admin → admin/index.html
+RewriteCond %{REQUEST_URI} ^/admin/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^admin/.*$ admin/index.html [L]
+
+# Frontend public → public/index.html (routes SPA à la racine)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteCond %{REQUEST_URI} !^/admin
+RewriteRule . public/index.html [L]
+
+# Racine → site public
+RewriteRule ^$ public/index.html [L]
+
+# ============================================================
+# Performance et Sécurité
+# ============================================================
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>

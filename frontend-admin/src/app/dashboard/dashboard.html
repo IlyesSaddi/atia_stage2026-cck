@@ -1,0 +1,96 @@
+<app-menu></app-menu>
+<app-header></app-header>
+
+<main class="main-content">
+  <div class="content">
+
+    
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon icon-blue">
+            <i class="fas fa-users"></i>
+          </div>
+        </div>
+        <div class="stat-number">{{ totalMembres }}</div>
+        <div class="stat-label">Membres Actifs</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon icon-orange">
+            <i class="fas fa-user-plus"></i>
+          </div>
+        </div>
+        <div class="stat-number">{{ totalDemandes }}</div>
+        <div class="stat-label">Demandes</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon icon-green">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+        </div>
+        <div class="stat-number">{{ totalEvenements }}</div>
+        <div class="stat-label">Événements</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon icon-purple">
+            <i class="fas fa-handshake"></i>
+          </div>
+        </div>
+        <div class="stat-number">{{ totalPartenaires }}</div>
+        <div class="stat-label">Partenaires</div>
+      </div>
+
+    </div>
+
+  
+    <div class="charts-grid">
+
+      
+      <div class="chart-card chart-large">
+        <h2 class="chart-title">Évolution des Membres</h2>
+        <div class="bar-chart">
+          <div class="bar-y-axis">
+            <span *ngFor="let label of yAxisLabels">{{ label }}</span>
+          </div>
+          <div class="bars-container">
+            <div class="bar-col" *ngFor="let bar of bars">
+              <div class="bar" [style.height]="bar.height + '%'"></div>
+              <span class="bar-label">{{ bar.label }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="chart-card chart-small">
+        <h2 class="chart-title">Répartition par Statut</h2>
+        <div class="donut-wrapper">
+          <svg viewBox="0 0 120 120" class="donut-svg">
+            <circle
+              *ngFor="let seg of donutSegments"
+              class="donut-segment"
+              [ngClass]="seg.cssClass"
+              cx="60" cy="60" r="45"
+              [attr.stroke-dasharray]="seg.dasharray"
+              [attr.stroke-dashoffset]="seg.dashoffset"/>
+          </svg>
+
+          <div class="donut-legend">
+            <div class="legend-item" *ngFor="let item of distribution">
+              <span class="legend-dot" [ngClass]="item.dotClass"></span>
+              <span [ngClass]="item.legendClass">{{ item.label }} ({{ item.percentage }}%)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>

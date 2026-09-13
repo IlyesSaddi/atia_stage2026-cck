@@ -1,0 +1,495 @@
+<div class="page-accueil">
+  <app-header />
+
+  <main id="accueil" class="hero" aria-label="Présentation">
+    <div class="hero-glow" aria-hidden="true"></div>
+
+    <div
+      class="hero-inner"
+      [class.intro-once]="playIntroAnimation()"
+      style="--intro-delay: 0ms"
+    >
+      <img
+        class="hero-logo"
+        src="assets/images/atia_logo.png"
+        alt="ATIA — Association Tunisienne pour l'Intelligence Artificielle"
+        width="200"
+      />
+
+<h1 class="hero-title">
+        Association Tunisienne pour <span class="title-accent">l'Intelligence Artificielle</span> 
+      </h1>
+  
+      <p class="hero-subtitle">
+        Fédérer chercheurs, industriels et décideurs pour accompagner la Tunisie
+        dans l'ère de l'IA responsable et inclusive.
+      </p>
+
+      <div class="hero-actions">
+        <button type="button" class="btn btn-primary" routerLink="/demande-adhesion">
+          Rejoindre l'ATIA →
+        </button>
+        <a routerLink="/" fragment="a-propos" class="btn btn-secondary">En savoir plus</a>
+      </div>
+    </div>
+  </main>
+
+  <section id="a-propos" class="about-atia" aria-labelledby="about-atia-heading">
+    <div
+      class="about-atia-inner"
+      [class.intro-once]="playIntroAnimation()"
+      style="--intro-delay: 90ms"
+    >
+      <h2 id="about-atia-heading" class="about-atia-title">
+  À propos de <span class="title-accent">l'ATIA</span>
+</h2>
+      <p class="about-atia-text">
+        Fondée en 2005 par le Pr. Khaled GHEDIRA, l'ATIA est une association à but
+        non lucratif issue des premières structures de recherche en IA en Tunisie.
+        Elle fédère chercheurs, industriels et décideurs pour développer les bonnes
+        pratiques de l'IA.
+      </p>
+
+      <div class="stats-grid">
+        <article class="stat-card">
+          <div class="stat-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+            </svg>
+          </div>
+          <p class="stat-value">1500+</p>
+          <p class="stat-label">Articles publiés</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+            </svg>
+          </div>
+          <p class="stat-value">300+</p>
+          <p class="stat-label">Thèses soutenues</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+            </svg>
+          </div>
+          <p class="stat-value">50+</p>
+          <p class="stat-label">Conférences organisées</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+            </svg>
+          </div>
+          <p class="stat-value">20</p>
+          <p class="stat-label">Années d'excellence</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+ @if (administratifs && administratifs.length > 0) {
+  <section id="bureau-executif" class="bureau-exec" aria-labelledby="bureau-exec-heading">
+    <div
+      class="bureau-exec-inner"
+      [class.intro-once]="playIntroAnimation()"
+      style="--intro-delay: 170ms"
+    >
+      <h2 id="bureau-exec-heading" class="bureau-exec-title">
+        Bureau Exécutif
+      </h2>
+
+      <div class="bureau-grid">
+        @for (admin of administratifs; track admin.id) {
+          <article class="bureau-card">
+            <img
+              class="bureau-photo"
+              [src]="admin.imageStr ? admin.imageStr : avatarUrl(admin.prenom + ' ' + admin.nom)"
+              [alt]="'Photo de ' + admin.prenom + ' ' + admin.nom"
+              width="112"
+              height="112"
+              loading="lazy"
+            />
+
+            <p class="bureau-name">
+              {{ admin.prenom }} {{ admin.nom }}
+            </p>
+
+            <p class="bureau-role">
+              {{ admin.fonction }}
+            </p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+}
+@if (allEvents.length > 0) {
+  <section id="evenements" class="events-section" aria-labelledby="events-heading">
+    <div
+      class="events-inner"
+      [class.intro-once]="playIntroAnimation()"
+      style="--intro-delay: 250ms"
+    >
+      <div class="events-header">
+        @if (upcomingEvents.length > 0) {
+        <div class="events-label">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2l1.5 5.5L19 9l-5.5 1.5L12 16l-1.5-5.5L5 9l5.5-1.5L12 2z"/>
+          </svg>
+          PROCHAINS RENDEZ-VOUS
+        </div>}
+        <h2 id="events-heading" class="events-title">
+  {{ upcomingEvents.length > 0 ? 'Événements à venir' : 'Nos événements' }}
+</h2>
+        <p class="events-subtitle">Conférences, workshops et journées scientifiques pour faire grandir la communauté IA tunisienne.</p>
+      </div>
+
+      <div class="events-grid"
+     [class.events-grid--single]="(upcomingEvents.length > 0 ? upcomingEvents.length : pastEvents.length) === 1">
+
+  @if (upcomingEvents.length > 0) {
+
+    @for (evt of upcomingEvents; track evt.id) {
+      <article class="event-card" (click)="openModal(evt)" style="cursor:pointer">
+        <div class="event-card__top"
+             [style.backgroundImage]="evt.imageStr ? 'url(' + evt.imageStr + ')' : null">
+          <span class="event-card__badge">{{ evt.type }}</span>
+          <h3 class="event-card__title">{{ evt.titre }}</h3>
+        </div>
+
+        <div class="event-card__body">
+          <div class="event-card__meta-row">
+            <span class="event-card__meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              {{ formatDate(evt.date) }}
+            </span>
+
+            <span class="event-card__meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                <circle cx="12" cy="9" r="2.5"/>
+              </svg>
+              {{ evt.lieu }}
+            </span>
+          </div>
+
+          <p class="event-card__desc">{{ evt.description }}</p>
+
+          <div class="event-card__footer">
+            <span class="event-card__status">À VENIR</span>
+
+            <button class="event-card__arrow" type="button"
+                    aria-label="Voir l'événement"
+                    (click)="openModal(evt); $event.stopPropagation()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2.5"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"/>
+                <polyline points="7 7 17 7 17 17"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </article>
+    }
+
+  } @else if (pastEvents.length > 0) {
+
+    @for (evt of pastEvents; track evt.id) {
+      <article class="event-card" (click)="openModal(evt)" style="cursor:pointer">
+        <div class="event-card__top"
+             [style.backgroundImage]="evt.imageStr ? 'url(' + evt.imageStr + ')' : null">
+          <span class="event-card__badge">{{ evt.type }}</span>
+          <h3 class="event-card__title">{{ evt.titre }}</h3>
+        </div>
+
+        <div class="event-card__body">
+          <div class="event-card__meta-row">
+            <span class="event-card__meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              {{ formatDate(evt.date) }}
+            </span>
+
+            <span class="event-card__meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                <circle cx="12" cy="9" r="2.5"/>
+              </svg>
+              {{ evt.lieu }}
+            </span>
+          </div>
+
+          <p class="event-card__desc">{{ evt.description }}</p>
+
+          <div class="event-card__footer">
+            <span class="event-card__status">PASSÉ</span>
+
+            <button class="event-card__arrow" type="button"
+                    aria-label="Voir l'événement"
+                    (click)="openModal(evt); $event.stopPropagation()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2.5"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"/>
+                <polyline points="7 7 17 7 17 17"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </article>
+    }
+
+  }
+
+</div>
+
+ @if (allEvents.length > 0) {
+  <div class="events-cta-wrap">
+    <a routerLink="/agenda" class="events-cta-btn">
+      Voir tous les événements →
+    </a>
+  </div>
+}
+    </div>
+  </section>}
+
+  @if (topAvis && topAvis.length > 0) {
+  <section id="temoignages" class="testimonials-section" aria-labelledby="testimonials-heading">
+    <div
+      class="testimonials-inner"
+      [class.intro-once]="playIntroAnimation()"
+      style="--intro-delay: 310ms"
+    >
+      <h2 id="testimonials-heading" class="testimonials-title">
+        Ce qu'en disent <span class="title-accent">nos membres</span>
+      </h2>
+
+      <p class="testimonials-subtitle">
+        Retours et témoignages de notre communauté après nos événements.
+      </p>
+
+      <div class="testimonials-grid">
+
+        @for (avis of topAvis; track avis.id) {
+          <article class="testi-card">
+            <div class="testi-card-top">
+              <div class="testi-stars" aria-label="5 étoiles sur 5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#1a3a6b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#1a3a6b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#1a3a6b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#1a3a6b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#1a3a6b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+
+              <span class="testi-deco-quote">"</span>
+            </div>
+
+            <p class="testi-quote">"{{ avis.contenu }}"</p>
+
+            <div class="testi-footer">
+              <div class="testi-author-row">
+                <div class="testi-avatar">
+                  {{ getInitials(avis.membreNom) }}
+                </div>
+
+                <div class="testi-info">
+                  <p class="testi-name">{{ avis.membreNom }}</p>
+                  <p class="testi-role">
+                    Membre · {{ formatStatut(avis.membreStatut) }}
+                  </p>
+                </div>
+              </div>
+
+              <span class="testi-event-badge">
+                {{ avis.evenementTitre }}
+              </span>
+            </div>
+          </article>
+        }
+
+      </div>
+    </div>
+  </section>
+}
+
+@if (partenaires && partenaires.length > 0) {
+  <section id="partenaires" class="partners-section" aria-labelledby="partners-heading">
+    <div
+      class="partners-inner"
+      [class.intro-once]="playIntroAnimation()"
+      style="--intro-delay: 360ms"
+    >
+      <h2 id="partners-heading" class="partners-title">
+        Nos <span class="title-accent">Partenaires</span>
+      </h2>
+
+      <p class="partners-subtitle">
+        Ils nous font confiance
+      </p>
+
+      <div class="partners-marquee" aria-label="Nos partenaires">
+        <div class="partners-track">
+          @for (p of partenairesTrack; track $index) {
+            <a
+              class="partner-card"
+              [href]="p.siteweb || '#'"
+              [attr.rel]="p.siteweb ? 'noopener noreferrer' : null"
+              [attr.target]="p.siteweb ? '_blank' : null"
+              [attr.aria-label]="'Logo ' + p.nom"
+              [attr.tabindex]="$index >= partenaires.length ? -1 : null"
+              [attr.aria-hidden]="$index >= partenaires.length ? true : null"
+            >
+              @if (p.imageStr) {
+                <img
+                  class="partner-logo"
+                  [src]="p.imageStr"
+                  [alt]="$index < partenaires.length ? 'Logo ' + p.nom : ''"
+                  width="160"
+                  height="64"
+                />
+              } @else {
+                <span class="partner-name-fallback">
+                  {{ p.nom }}
+                </span>
+              }
+            </a>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+}
+
+  <section id="adhesion" class="cta-section" aria-labelledby="cta-heading">
+    <div
+      class="cta-inner"
+      [class.intro-once]="playIntroAnimation()"
+      style="--intro-delay: 390ms"
+    >
+      <div class="cta-card">
+        <div class="cta-card-deco" aria-hidden="true">
+          <span class="cta-ring cta-ring--tr"></span>
+          <span class="cta-ring cta-ring--bl"></span>
+        </div>
+
+        <div class="cta-card-content">
+          <div class="cta-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 2l1.2 4.2L17 8l-3.8 1.8L12 14l-1.2-4.2L7 8l3.8-1.8L12 2z"
+                fill="#f59e0b"
+              />
+              <path
+                d="M18 14l.6 2.1L21 17l-2.4 1.1L18 20l-.6-2.1L15 17l2.4-1.1L18 14z"
+                fill="#fbbf24"
+              />
+            </svg>
+          </div>
+
+          <h2 id="cta-heading" class="cta-title">Rejoignez l'ATIA</h2>
+          <p class="cta-text">
+            Faites partie de la communauté tunisienne de l'IA. Chercheurs, industriels,
+            étudiants — ensemble, façonnons l'avenir.
+          </p>
+          <button type="button" class="cta-btn" routerLink="/demande-adhesion">
+            Demande d'adhésion →
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal événement -->
+  @if (selectedEvent) {
+    <div class="ev-modal-overlay" (click)="closeModal()">
+      <div class="ev-modal" (click)="$event.stopPropagation()">
+        <div class="ev-modal__header"
+          [style.backgroundImage]="selectedEvent.imageStr ? 'url(' + selectedEvent.imageStr + ')' : null">
+          <div class="ev-modal__header-overlay"></div>
+          <button class="ev-modal__close" (click)="closeModal()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+          <div class="ev-modal__header-content">
+            <div class="ev-modal__badges">
+              <span class="ev-modal__type-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/>
+                  <line x1="7" y1="7" x2="7.01" y2="7"/>
+                </svg>
+                {{ selectedEvent.type }}
+              </span>
+              <span class="ev-modal__status-badge">{{ getEventStatus(selectedEvent) }}</span>
+            </div>
+            <h2 class="ev-modal__title">{{ selectedEvent.titre }}</h2>
+          </div>
+        </div>
+        <div class="ev-modal__body">
+          <div class="ev-modal__info-row">
+            <div class="ev-modal__info-box">
+              <span class="ev-modal__info-label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                Date
+              </span>
+              <strong class="ev-modal__info-value">{{ selectedEvent.date | date:'dd MMMM yyyy' }}</strong>
+            </div>
+            <div class="ev-modal__info-box">
+              <span class="ev-modal__info-label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                  <circle cx="12" cy="9" r="2.5"/>
+                </svg>
+                Lieu
+              </span>
+              <strong class="ev-modal__info-value">{{ selectedEvent.lieu }}</strong>
+            </div>
+          </div>
+          <div class="ev-modal__section">
+            <p class="ev-modal__section-label">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l1.5 5.5L19 9l-5.5 1.5L12 16l-1.5-5.5L5 9l5.5-1.5L12 2z"/>
+              </svg>
+              À PROPOS
+            </p>
+            <p class="ev-modal__desc">{{ selectedEvent.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <div [class.intro-once]="playIntroAnimation()" style="--intro-delay: 460ms">
+    <app-footer />
+  </div>
+<app-chatbot />
+</div>

@@ -1,0 +1,335 @@
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.dashboard-layout__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 260px;
+  transition: margin-left 0.3s ease;
+  min-height: 100vh;
+}
+
+.dashboard-layout__content {
+  flex: 1;
+  padding: 32px 28px;
+  background-color: #f8fafc;
+  box-sizing: border-box;
+}
+
+/* ── Welcome ── */
+.db-welcome {
+  margin-bottom: 24px;
+}
+
+.db-welcome__title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px;
+}
+
+.db-welcome__sub {
+  font-size: 14px;
+  color: #94a3b8;
+  margin: 0;
+}
+
+/* ── Stat cards grid ── */
+.db-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 2rem;
+}
+
+.db-card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e8ecf0;
+  padding: 20px 22px;
+}
+
+.db-card__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.db-card__icon { flex-shrink: 0; }
+.db-card__icon--green  { color: #22c55e; }
+.db-card__icon--navy   { color: #1a2e4a; }
+.db-card__icon--orange { color: #ea580c; }
+
+.db-card__label {
+  font-size: 13px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.db-card__value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* ── Recommandations ── */
+.db-recommandations {
+  margin-top: 1.5rem;
+}
+
+.db-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.db-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.db-voir-tout {
+  font-size: 0.875rem;
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.db-voir-tout:hover { text-decoration: underline; }
+
+/* ── Rec grid — 3 colonnes comme la photo ── */
+.db-rec-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+/* ── Rec card ── */
+.db-rec-card {
+  border-radius: 16px;
+  overflow: visible;
+  background: #fff;
+  border: 1.5px solid #e9edf2;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.25s ease,
+              border-color 0.25s ease;
+  text-decoration: none;
+  display: block;
+  position: relative;
+}
+
+.db-rec-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(12,36,77,0.13);
+  border-color: #c7d8ff;
+}
+
+/* ── Image wrap ── */
+.db-rec-card__img-wrap {
+  position: relative;
+  height: 195px;
+  overflow: hidden;
+  border-radius: 16px 16px 0 0;
+}
+
+.db-rec-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Badge type en haut à gauche */
+.db-rec-card__badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+/* Date en bas à gauche de l'image */
+.db-rec-card__date-overlay {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 20px;
+  padding: 5px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #0f172a;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* ── Corps de la carte ── */
+.db-rec-card__body {
+  padding: 1rem 1.1rem 1rem;
+  border-radius: 0 0 16px 16px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.db-rec-card__title {
+  font-size: 0.975rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.75rem;
+  line-height: 1.4;
+}
+
+.db-rec-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.db-rec-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Flèche dans le footer */
+.db-rec-card__arrow {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid #e2e8f0;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #334155;
+  transition: background 0.25s ease, border-color 0.25s ease,
+              color 0.25s ease, transform 0.25s ease;
+}
+
+.db-rec-card:hover .db-rec-card__arrow {
+  background: #0c244d;
+  border-color: #0c244d;
+  color: #ffffff;
+  transform: scale(1.08);
+}
+
+/* ── Tooltip "Pourquoi cet événement ?" ── */
+.db-rec-card__tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  width: 290px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 16px 48px rgba(12,36,77,0.2);
+  border: 1px solid #dde4f0;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 20;
+  transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.22,1,0.36,1);
+}
+
+.db-rec-card:hover .db-rec-card__tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.db-rec-card__tooltip-header {
+  background: #0c244d;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+}
+
+.db-rec-card__tooltip-icon {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.db-rec-card__tooltip-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.db-rec-card__tooltip-badge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(255,255,255,0.18);
+  border-radius: 20px;
+  padding: 2px 9px;
+  display: inline-block;
+}
+
+.db-rec-card__tooltip-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.25;
+}
+
+.db-rec-card__tooltip-body {
+  padding: 14px 16px;
+  font-size: 0.83rem;
+  color: #374151;
+  line-height: 1.6;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .db-rec-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .dashboard-layout__main { margin-left: 0; }
+  .dashboard-layout__content { padding: 20px 16px; }
+  .db-cards { grid-template-columns: repeat(3, 1fr); }
+  .db-rec-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .db-cards { grid-template-columns: 1fr; }
+  .db-welcome__title { font-size: 20px; }
+}

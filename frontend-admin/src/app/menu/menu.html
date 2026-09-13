@@ -1,0 +1,67 @@
+<aside class="sidebar">
+
+    <div class="sidebar-header">
+        <div class="logo">
+            <div class="logo-img-wrapper">
+                <img src="assets/images/ATIA.png" alt="ATIA Logo" class="logo-img">
+            </div>
+            <div class="logo-text-block">
+                <span class="logo-title">ATIA</span>
+                <span class="logo-sub">Portail Admin</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <nav class="sidebar-nav">
+
+        <a [routerLink]="['/dashboard']" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <div class="nav-icon"><i class="fas fa-th-large"></i></div>
+            <span class="nav-label">Dashboard</span>
+            <div class="active-dot"></div>
+        </a>
+
+        <div class="sidebar-divider" style="margin: 8px 0;"></div>
+
+        <span class="nav-section-label">GESTION</span>
+
+        <a class="nav-item" [routerLink]="['/Demandes']" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <div class="nav-icon"><i class="fas fa-user-plus"></i></div>
+            <span class="nav-label">Demande d'adhésion</span>
+                  <div class="active-dot"></div>
+        </a>
+
+        <a [routerLink]="['/membres']" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <div class="nav-icon"><i class="fas fa-users"></i></div>
+            <span class="nav-label">Membres</span>
+            <div class="active-dot"></div>
+        </a>
+
+        <a [routerLink]="['/gestion-evenement']" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <div class="nav-icon"><i class="fas fa-calendar-alt"></i></div>
+            <span class="nav-label">Événements</span>
+            <div class="active-dot"></div>
+        </a>
+
+        <span class="nav-section-label" style="margin-top: 12px;">ORGANISATION</span>
+
+        <a [routerLink]="['/Bureau']" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <div class="nav-icon"><i class="fas fa-building"></i></div>
+            <span class="nav-label">Bureau exécutif</span>
+                  <div class="active-dot"></div>
+        </a>
+
+        <a [routerLink]="['/liste-partner']" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <div class="nav-icon"><i class="fas fa-handshake"></i></div>
+            <span class="nav-label">Partenaires</span>
+            <div class="active-dot"></div>
+        </a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+        <span class="footer-copy">© 2025 ATIA</span>
+    </div>
+
+</aside>

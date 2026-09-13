@@ -1,0 +1,172 @@
+<app-menu></app-menu>
+<app-header></app-header>
+
+<main class="main-content">
+  <section class="content">
+    <div class="content-header">
+      <h1></h1>
+      <button class="btn-add" type="button" (click)="openAddModal()">
+        <i class="fas fa-plus"></i>
+        Ajouter administratif
+      </button>
+    </div>
+
+    <div class="admins-grid">
+      <article class="admin-card" *ngFor="let admin of administratifs">
+
+        <div class="card-top">
+          <div class="avatar" *ngIf="!admin.imageStr">
+            {{ admin.nom.charAt(0) }}
+          </div>
+          <img
+            *ngIf="admin.imageStr"
+            class="avatar-img"
+            [src]="admin.imageStr"
+          />
+          <div class="card-identity">
+            <h3>{{ admin.nom }} {{ admin.prenom }}</h3>
+            <span class="role-badge">{{ admin.fonction }}</span>
+          </div>
+        </div>
+
+        <hr class="card-divider" />
+
+        <div class="card-meta">
+          <p class="meta"><i class="fas fa-envelope"></i> {{ admin.email }}</p>
+          <p class="meta"><i class="fas fa-phone"></i> {{ admin.tlf }}</p>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn-modifier" title="Modifier" (click)="openEditModal(admin)">
+            <i class="fas fa-pen"></i> Modifier
+          </button>
+          <button class="btn-delete-icon" title="Supprimer" (click)="supprimerAdministratif(admin)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+
+      </article>
+    </div>
+
+   
+    <div
+      class="admin-modal-overlay"
+      *ngIf="isAddModalOpen"
+      (click)="closeAddModal()"
+    >
+      <div class="admin-modal-card" (click)="$event.stopPropagation()">
+        <div class="admin-modal-inner">
+          <div class="form-container">
+            <div class="form-header">
+              <h1>{{ isEditMode ? 'Modifier l\'administratif' : 'Nouvel Administratif' }}</h1>
+              <p>{{ isEditMode
+                ? 'Modifiez les informations du membre administratif.'
+                : 'Ajoutez un nouveau membre de l\'équipe administrative de l\'ATIA.' }}</p>
+            </div>
+
+            <form class="event-form" (ngSubmit)="isEditMode ? updateAdministratif() : addAdministratif()" #adminForm="ngForm">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="nom">Nom <span class="required">*</span></label>
+                  <input type="text" id="nom" name="nom" [(ngModel)]="newAdministratif.nom" placeholder="Nom de famille" required />
+                </div>
+                <div class="form-group">
+                  <label for="prenom">Prénom <span class="required">*</span></label>
+                  <input type="text" id="prenom" name="prenom" [(ngModel)]="newAdministratif.prenom" placeholder="Prénom" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="fonction">Fonction <span class="required">*</span></label>
+                <input
+                  type="text"
+                  id="fonction"
+                  name="fonction"
+                  [(ngModel)]="newAdministratif.fonction"
+                  placeholder="Ex: Secrétaire général, Trésorier..."
+                  required
+                />
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="email">Email <span class="required">*</span></label>
+                  <input type="email" id="email" name="email" [(ngModel)]="newAdministratif.email" placeholder="exemple@atia.tn" required />
+                </div>
+                <div class="form-group">
+                  <label for="tlf">Téléphone <span class="required">*</span></label>
+                  <input type="tel" id="tlf" name="tlf" [(ngModel)]="newAdministratif.tlf" placeholder="Numéro de téléphone" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="image">Photo de profil <span class="required" *ngIf="!isEditMode">*</span></label>
+                <div class="image-upload">
+                  <input type="file" id="image" accept="image/*" (change)="onImageUpload($event)" />
+                  <div class="upload-placeholder">
+
+                    
+                    <ng-container *ngIf="imagePath">
+                      <img [src]="imagePath" alt="Aperçu"
+                           style="max-height: 80px; border-radius: 8px; margin-bottom: 8px;" />
+                      <span>Nouvelle image sélectionnée</span>
+                    </ng-container>
+
+                    <!-- Image actuelle en mode édition -->
+                    <ng-container *ngIf="!imagePath && isEditMode && newAdministratif.image">
+                      <img [src]="getImageUrl(newAdministratif.image)" alt="Image actuelle"
+                           style="max-height: 80px; border-radius: 50%; margin-bottom: 8px;" />
+                      <span>Image actuelle — cliquez pour changer</span>
+                    </ng-container>
+
+                    <!-- Placeholder par défaut -->
+                    <ng-container *ngIf="!imagePath && !(isEditMode && newAdministratif.image)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                           viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                           stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                      </svg>
+                      <p>Cliquez pour uploader une photo</p>
+                      <span>JPG, PNG (Format carré recommandé)</span>
+                    </ng-container>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn-cancel" (click)="closeAddModal()">Annuler</button>
+                <button type="submit"   class="btn-submit">
+                  {{ isEditMode ? 'Modifier' : 'Enregistrer' }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="admin-modal-overlay" *ngIf="isDeleteModalOpen" (click)="closeDeleteModal()">
+      <div class="delete-modal-card" (click)="$event.stopPropagation()">
+        <div class="delete-modal-inner">
+          <div class="delete-icon-wrapper">
+            <i class="fas fa-trash-alt"></i>
+          </div>
+          <h2>Supprimer l'administratif</h2>
+          <p>Voulez-vous vraiment supprimer
+            <strong>"{{ adminToDelete?.nom }} {{ adminToDelete?.prenom }}"</strong> ?
+          </p>
+          <div class="delete-modal-actions">
+            <button class="btn-cancel" type="button" (click)="closeDeleteModal()">Annuler</button>
+            <button class="btn-confirm-delete" type="button" (click)="confirmDelete()">
+              <i class="fas fa-trash"></i> Supprimer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</main>

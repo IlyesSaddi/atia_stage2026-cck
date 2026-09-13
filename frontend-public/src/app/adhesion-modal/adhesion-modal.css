@@ -1,0 +1,360 @@
+.adhesion-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.adhesion-dialog {
+  position: relative;
+  width: min(100%, 560px);
+  max-height: min(90vh, 720px);
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(15, 45, 95, 0.35);
+  overflow: hidden;
+}
+
+.adhesion-close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.adhesion-close:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.adhesion-header {
+  padding: 1.75rem 2.5rem 1rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.adhesion-logo {
+  display: block;
+  margin: 0 auto 0.75rem;
+  width: 72px;
+  height: auto;
+}
+
+.adhesion-title {
+  margin: 0 0 0.35rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: #0f2d5f;
+  letter-spacing: -0.02em;
+}
+
+.adhesion-subtitle {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: #64748b;
+}
+
+.adhesion-stepper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  padding: 0.5rem 2rem 1.25rem;
+  flex-shrink: 0;
+}
+
+.adhesion-stepper-item {
+  display: flex;
+  align-items: center;
+}
+
+.adhesion-step-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  border: 2px solid #cbd5e1;
+  color: #94a3b8;
+  background: #ffffff;
+}
+
+.adhesion-step-dot--active {
+  border-color: #0f2d5f;
+  background: #0f2d5f;
+  color: #ffffff;
+}
+
+.adhesion-step-dot--done {
+  border-color: #0f2d5f;
+  background: #0f2d5f;
+  color: #ffffff;
+}
+
+.adhesion-step-line {
+  width: 48px;
+  height: 2px;
+  background: #e2e8f0;
+  margin: 0 0.25rem;
+}
+
+.adhesion-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  padding: 0 1.75rem 1.25rem;
+  overflow-y: auto;
+}
+
+.adhesion-fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-width: 0;
+}
+
+.adhesion-legend {
+  padding: 0;
+  margin: 0 0 1.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.adhesion-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.adhesion-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.adhesion-label--full {
+  margin-bottom: 1rem;
+}
+
+.req {
+  color: #dc2626;
+}
+
+.adhesion-input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 0.55rem 0.85rem;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #ffffff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.adhesion-input::placeholder {
+  color: #94a3b8;
+}
+
+.adhesion-input:focus {
+  outline: none;
+  border-color: #0f2d5f;
+  box-shadow: 0 0 0 3px rgba(15, 45, 95, 0.12);
+}
+
+.adhesion-input-wrap {
+  position: relative;
+  display: block;
+}
+
+.adhesion-input-wrap .adhesion-input {
+  padding-right: 2.75rem;
+}
+
+.adhesion-input-icon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.adhesion-input-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.adhesion-label-text {
+  margin: 0 0 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.adhesion-statut-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.adhesion-statut-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 100px;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.adhesion-statut-card:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+.adhesion-statut-card--selected {
+  border-color: #0f2d5f;
+  background: #f8fafc;
+  box-shadow: 0 0 0 1px #0f2d5f;
+}
+
+.adhesion-statut-icon {
+  display: flex;
+  color: #475569;
+}
+
+.adhesion-statut-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.adhesion-statut-label {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.adhesion-step-placeholder {
+  padding: 0.5rem 0 1rem;
+}
+
+.adhesion-step-h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.adhesion-step-p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: #64748b;
+}
+
+.adhesion-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e8edf3;
+  flex-shrink: 0;
+}
+
+.adhesion-footer-spacer {
+  flex: 1;
+}
+
+.adhesion-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 1.35rem;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.adhesion-btn--primary {
+  background: #0f2d5f;
+  color: #ffffff;
+}
+
+.adhesion-btn--primary:hover {
+  background: #0c244d;
+}
+
+.adhesion-btn--ghost {
+  background: transparent;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.adhesion-btn--ghost:hover {
+  background: #f8fafc;
+}
+
+@media (max-width: 520px) {
+  .adhesion-row {
+    grid-template-columns: 1fr;
+  }
+
+  .adhesion-statut-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .adhesion-header {
+    padding: 1.5rem 1.25rem 0.75rem;
+  }
+
+  .adhesion-form {
+    padding: 0 1.25rem 1rem;
+  }
+}

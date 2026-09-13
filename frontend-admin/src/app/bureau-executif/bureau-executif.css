@@ -1,0 +1,542 @@
+.main-content {
+  margin-left: 230px;
+  margin-top: 0;
+  min-height: 100vh;
+  background: #f0f4f9;
+}
+
+.content {
+  padding: 24px 32px;
+}
+
+.content-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.content-header h1 {
+  font-size: 26px;
+  color: #0f172a;
+}
+
+.btn-add {
+  background: #1e293b;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* ===== GRID ===== */
+.admins-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+/* ===== CARD ===== */
+.admin-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 20px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ===== TOP: Avatar + Identity ===== */
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1f3f73, #244a86);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.avatar-img {
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.card-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-card h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.role-badge {
+  display: inline-block;
+  background: #eff6ff;
+  color: #3b82f6;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid #bfdbfe;
+}
+
+/* ===== DIVIDER ===== */
+.card-divider {
+  border: none;
+  border-top: 1px solid #f1f5f9;
+  margin: 0 0 12px 0;
+}
+
+/* ===== META ===== */
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.meta {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.meta i {
+  color: #94a3b8;
+  font-size: 13px;
+  width: 14px;
+  text-align: center;
+}
+
+/* ===== ACTIONS ===== */
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.btn-modifier {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-modifier:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.btn-modifier i {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.btn-delete-icon {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #fee2e2;
+  border-radius: 8px;
+  background: #fff5f5;
+  color: #ef4444;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-delete-icon:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .admins-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) and (min-width: 769px) {
+  .main-content {
+    margin-left: var(--sidebar-w-collapsed, 68px);
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    margin-top: 68px;
+  }
+  .content {
+    padding: 20px;
+  }
+  .admins-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========== MODAL ========== */
+.admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 15, 30, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  overflow-y: auto;
+  animation: overlayIn 0.2s ease;
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.admin-modal-card {
+  width: 100%;
+  max-width: 760px;
+  margin: auto;
+  animation: modalIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+.admin-modal-inner {
+  background: transparent;
+}
+
+.admin-modal-overlay .form-container {
+  max-width: 720px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  padding: 40px;
+}
+
+.admin-modal-overlay .form-header {
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-modal-overlay .form-header h1 {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.admin-modal-overlay .form-header p {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.admin-modal-overlay .event-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.admin-modal-overlay .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-modal-overlay .form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.admin-modal-overlay .required {
+  color: #e8513a;
+}
+
+.admin-modal-overlay .form-group input[type="text"],
+.admin-modal-overlay .form-group input[type="email"],
+.admin-modal-overlay .form-group input[type="tel"],
+.admin-modal-overlay .form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1a1a2e;
+  background: #ffffff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.admin-modal-overlay .form-group input:focus,
+.admin-modal-overlay .form-group textarea:focus {
+  border-color: #4a90d9;
+  box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.15);
+}
+
+.admin-modal-overlay .form-group input::placeholder,
+.admin-modal-overlay .form-group textarea::placeholder {
+  color: #9ca3af;
+}
+
+.admin-modal-overlay .form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.admin-modal-overlay .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.admin-modal-overlay .image-upload {
+  position: relative;
+}
+
+.admin-modal-overlay .image-upload input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.admin-modal-overlay .upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 32px;
+  border: 2px dashed #d1d5db;
+  border-radius: 10px;
+  background: #f9fafb;
+  transition: border-color 0.2s, background 0.2s;
+  cursor: pointer;
+}
+
+.admin-modal-overlay .image-upload:hover .upload-placeholder {
+  border-color: #4a90d9;
+  background: #eef4fb;
+}
+
+.admin-modal-overlay .upload-placeholder svg {
+  color: #9ca3af;
+}
+
+.admin-modal-overlay .upload-placeholder p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.admin-modal-overlay .upload-placeholder span {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.admin-modal-overlay .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 8px;
+}
+
+.admin-modal-overlay .btn-cancel {
+  padding: 12px 28px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-modal-overlay .btn-cancel:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.admin-modal-overlay .btn-submit {
+  padding: 12px 32px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #152849 0%, #1e3a5f 100%);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-modal-overlay .btn-submit:hover {
+  background: linear-gradient(135deg, #1e3a5f 0%, #264d73 100%);
+  box-shadow: 0 4px 12px rgba(21, 40, 73, 0.3);
+}
+
+@media (max-width: 768px) {
+  .admin-modal-card {
+    max-width: 100%;
+  }
+  .admin-modal-overlay .form-row {
+    grid-template-columns: 1fr;
+  }
+  .admin-modal-overlay .form-container {
+    padding: 24px;
+  }
+}
+/* ========== Modal Confirmation Suppression ========== */
+.delete-modal-card {
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+  animation: modalIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.delete-modal-inner {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 40px 36px 32px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.delete-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  background: #fef2f2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.delete-icon-wrapper i {
+  font-size: 26px;
+  color: #ef4444;
+}
+
+.delete-modal-inner h2 {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.delete-modal-inner p {
+  margin: 0 0 28px;
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.delete-modal-inner p strong {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.delete-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.delete-modal-actions .btn-cancel {
+  padding: 11px 28px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.delete-modal-actions .btn-cancel:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.btn-confirm-delete {
+  padding: 11px 28px;
+  border: none;
+  border-radius: 8px;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.btn-confirm-delete:hover {
+  background: #dc2626;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+}

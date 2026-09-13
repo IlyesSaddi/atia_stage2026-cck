@@ -1,0 +1,30 @@
+<div class="reset-page">
+  <div class="reset-card">
+    <h1>Créer votre mot de passe</h1>
+    <p class="subtitle">Un administrateur a créé votre compte. Définissez votre mot de passe pour activer votre accès.</p>
+
+    <form [formGroup]="resetForm" (ngSubmit)="soumettre()" *ngIf="token">
+      <label>Mot de passe</label>
+      <div class="password-field">
+        <input [type]="showPassword ? 'text' : 'password'" formControlName="motDePasse" placeholder="Au moins 6 caractères" />
+        <button type="button" class="toggle" (click)="togglePassword()">{{ showPassword ? 'Masquer' : 'Afficher' }}</button>
+      </div>
+      <div class="error" *ngIf="mp?.invalid && mp?.touched">Le mot de passe doit contenir au moins 6 caractères.</div>
+
+      <label>Confirmer le mot de passe</label>
+      <input [type]="showPassword ? 'text' : 'password'" formControlName="confirmation" placeholder="Retapez le mot de passe" />
+      <div class="error" *ngIf="conf?.invalid && conf?.touched">Veuillez confirmer le mot de passe.</div>
+      <div class="error" *ngIf="resetForm.hasError('nonIdentique') && conf?.touched">Les mots de passe ne correspondent pas.</div>
+
+      <button type="submit" class="btn-primary" [disabled]="loading">
+        {{ loading ? 'Enregistrement...' : 'Créer mon mot de passe' }}
+      </button>
+    </form>
+
+    <div class="error-box" *ngIf="!token">
+      <p>Lien d'activation invalide. Contactez un administrateur pour obtenir un nouveau lien.</p>
+    </div>
+
+    <a routerLink="/espace-membre" class="back-link">Retour à la connexion</a>
+  </div>
+</div>
