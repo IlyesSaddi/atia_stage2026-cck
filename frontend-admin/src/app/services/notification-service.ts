@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { NotifAdmin } from '../model/notification.model';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
 
-  private base = '/api/notifications';
+  private base = `${environment.apiBaseUrl}/api/notifications.php`;
 
   constructor(private http: HttpClient) {}
 
@@ -18,22 +19,21 @@ export class NotificationService {
     });
   }
 
-  getNonLuesAdmin(membreId: number): Observable<NotifAdmin[]> {
+  getNonLuesAdmin(adminId: number): Observable<NotifAdmin[]> {
     return this.http.get<NotifAdmin[]>(
-      `${this.base}/admin/${membreId}`,
+      `${this.base}?action=admin&id=${adminId}`,
       { headers: this.getHeaders() }
     );
   }
 
   marquerCommeLue(id: number): Observable<void> {
     return this.http.put<void>(
-      `${this.base}/${id}/lire`,
+      `${this.base}?action=lire&id=${id}`,
       {},
       { headers: this.getHeaders() }
     );
   }
 
-  // SSE non dispo en dev PHP : on utilise un polling régulier
   private seenNotifIds = new Set<number>();
 
   connecterSSE(userId: number, onNotif: (n: NotifAdmin) => void): { close: () => void } {

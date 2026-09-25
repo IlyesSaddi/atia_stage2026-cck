@@ -145,9 +145,29 @@ copierLien(): void {
 }
 
   refuser(demande: Membre): void {
+  if (!demande.id) return;
 
-    console.warn('Refus non encore implémenté côté backend');
+  if (!confirm(`Voulez-vous vraiment refuser cette demande ?`)) {
+    return;
   }
+
+  this.membreService.supprimerMembre(demande.id).subscribe({
+    next: () => {
+      this.demandes = this.demandes.filter(
+        d => d.id !== demande.id
+      );
+
+      this.selectedDemande = null;
+
+      this.toast.success('Demande refusée');
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error('Erreur lors du refus :', err);
+      this.toast.danger('Erreur lors du refus de la demande');
+    }
+  });
+}
 private bytesToBase64(bytes: any): string {
   try {
     

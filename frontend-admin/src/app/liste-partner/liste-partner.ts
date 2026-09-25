@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-liste-partner',
@@ -32,6 +33,7 @@ export class ListePartner implements OnInit {
   newPartner = new Partenaire();
   uploadedImage!: File;
   imagePath: any;
+  apiBaseUrl = environment.apiBaseUrl;
 
 
   isDeleteModalOpen = false;

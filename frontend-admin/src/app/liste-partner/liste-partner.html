@@ -175,7 +175,7 @@
 
               
                   <ng-container *ngIf="!imagePath && isEditMode && (newPartner.imageStr || newPartner.imageId)">
-                    <img [src]="newPartner.imageStr || ('/api/images/' + newPartner.imageId)" alt="Logo actuel"
+                    <img [src]="newPartner.imageStr || (apiBaseUrl + '/api/images/' + newPartner.imageId)" alt="Logo actuel"
                          style="max-height: 80px; border-radius: 8px; margin-bottom: 8px;" />
                     <span>Logo actuel — cliquez pour changer</span>
                   </ng-container>
