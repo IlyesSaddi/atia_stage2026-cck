@@ -5,12 +5,54 @@
 > Stack : **PHP · MySQL · Apache 2 · Angular (compilé)**  
 > ✅ Testé : **15/15 endpoints OK**
 
+> Déploiement recommandé sur un domaine existant :  
+> `https://atia.org.tn/` → ancien site, inchangé  
+> `https://atia.org.tn/newsite/` → nouvelle application ATIA
+
 ---
 
 ## 📁 Structure du projet
 
-- **Stockage images :** LONGBLOB MySQL (pas de fichiers sur disque) |
+- **Stockage images :** LONGBLOB MySQL (pas de fichiers sur disque)
+
+### Structure de déploiement recommandée pour un site existant
+
+```text
+/var/www/html/
+├── index.php                    # site actuel, inchangé
+├── ancien-site/                 # éventuellement ancien contenu
+└── newsite/
+    ├── api/
+    │   ├── auth.php
+    │   ├── membres.php
+    │   ├── evenements.php
+    │   ├── avis.php
+    │   ├── partenaires.php
+    │   ├── administratif.php
+    │   ├── notifications.php
+    │   ├── stats.php
+    │   ├── image.php
+    │   ├── chatbot.php
+    │   ├── recommandation.php
+    │   └── validation.php
+    ├── config/
+    │   └── db.php
+    ├── public/
+    │   ├── index.html
+    │   ├── main-xxxxx.js
+    │   └── styles-xxxxx.css
+    ├── admin/
+    │   ├── index.html
+    │   ├── main-xxxxx.js
+    │   └── styles-xxxxx.css
+    ├── .htaccess
+    ├── schema_db_mysql5.sql
+    └── ...
 ```
+
+> Le site existant reste sur la racine du domaine. Le nouveau site ATIA est installé dans `/newsite/` sans casser l’ancien site.
+
+---
 
 ## Réponses pour la demande d'hébergement (CCK)
 
@@ -187,9 +229,36 @@ PHP 8.x Development Server (http://localhost:8080) started
 
 ---
 
-## 🌍 Déployer sur le serveur CCK
+## 🌍 Déployer sur le serveur CCK / Topnet / Plesk sans casser le site existant
 
-### 1. Vérifier les frontends compilés
+### Cas concret visé
+
+```text
+https://atia.org.tn/          → ancien site, inchangé
+https://atia.org.tn/newsite/  → nouvelle application ATIA
+```
+
+> Important : ne pas écraser la racine du domaine. Le nouveau site est ajouté dans un sous-dossier `/newsite/`.
+
+### 1. Vérifier le Document Root du site existant
+
+Avant de créer un dossier `/newsite/`, vérifier le chemin réel du Document Root dans Plesk/Topnet pour `atia.org.tn`.
+
+Le dossier réel est souvent de type :
+
+```text
+/var/www/vhosts/atia.org.tn/httpdocs/
+```
+
+ou encore :
+
+```text
+/var/www/vhosts/nom-client/httpdocs/
+```
+
+À partir de ce Document Root, créer le sous-dossier `newsite/` sans toucher au site principal.
+
+### 2. Vérifier les frontends compilés
 
 ```bash
 ls public/    # doit contenir : index.html  main-xxx.js  styles-xxx.css
@@ -202,17 +271,33 @@ Si l'un des dossiers est vide, recompiler depuis les sources :
 # Frontend public
 cd frontend-public
 npm install
-npm run build -- --configuration production
+ng build --configuration production --base-href /newsite/
 cp -r dist/*/browser/* ../public/
 
 # Frontend admin
 cd ../frontend-admin
 npm install
-npm run build -- --configuration production
+ng build --configuration production --base-href /newsite/admin/
 cp -r dist/*/browser/* ../admin/
 ```
 
-### 2. Uploader sur le CCK
+> Les `base-href` sont essentiels pour que Angular fonctionne sous un sous-dossier `/newsite/`.
+
+### 3. Uploader sur le serveur
+
+Le dossier doit être organisé ainsi :
+
+```text
+DocumentRoot/
+└── newsite/
+    ├── api/
+    ├── config/
+    ├── public/
+    ├── admin/
+    ├── .htaccess
+    ├── schema_db_mysql5.sql
+    └── ...
+```
 
 **Via SCP (SSH) :**
 ```bash
@@ -221,29 +306,60 @@ rsync -av \
   --exclude='frontend-public' \
   --exclude='frontend-admin' \
   --exclude='router.php' \
-  ./ user@serveur-cck.rnu.tn:/var/www/html/
+  ./ user@serveur:/chemin/vers/documentroot/newsite/
 ```
 
-**Via FTP :**
+**Via FTP/Plesk :**
 ```
-Hôte    : ftp.votre-labo.rnu.tn
-Dossier : /var/www/html/
-Copier  : tous les fichiers sauf frontend-public/ et frontend-admin/
+Créer le dossier : /newsite/
+Uploader ensuite : api/, config/, public/, admin/, .htaccess, schema_db_mysql5.sql
 ```
 
-### 3. Configurer la BDD sur le CCK
+### 4. Configurer la BDD
 
-1. Aller sur **phpMyAdmin** du CCK
+1. Aller sur **phpMyAdmin** du serveur
 2. Créer la base `atia_db`
 3. Importer `schema_db_mysql5.sql`
-4. Modifier `config/db.php` avec les credentials du CCK
+4. Modifier `config/db.php` avec les identifiants du serveur
 
-### 4. Activer mod_rewrite (si pas déjà fait)
+### 5. Ajouter le fichier `.htaccess` dans `/newsite/`
+
+```apache
+RewriteEngine On
+RewriteBase /newsite/
+
+# Laisser passer les API PHP
+RewriteRule ^api/ - [L,NC]
+
+# Route admin Angular
+RewriteRule ^admin/?$ admin/index.html [L,NC]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^admin/(.*)$ admin/index.html [L,NC]
+
+# Route public Angular
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/index.html [L,NC]
+```
+
+### 6. Vérifier Apache / mod_rewrite
 
 ```bash
 sudo a2enmod rewrite
 sudo systemctl restart apache2
 ```
+
+### 7. URL finales attendues
+
+```text
+https://atia.org.tn/          → ancien site, inchangé
+https://atia.org.tn/newsite/  → nouvelle application ATIA
+https://atia.org.tn/newsite/admin  → interface admin Angular
+https://atia.org.tn/newsite/api/stats/dashboard  → API PHP
+```
+
+---
 
 ---
 

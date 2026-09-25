@@ -1,24 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Partenaire } from '../model/partenaire.model';
 import { Image } from '../model/image.model';
+import { Partenaire } from '../model/partenaire.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PartenaireService {
 
-  apiURL: string = '/api/partenaires';
-  imageURL: string = '/api/images';
+  private apiURL   = `${environment.apiBaseUrl}/api/partenaires.php`;
+  private imageURL = `${environment.apiBaseUrl}/api/image.php`;
 
   constructor(private http: HttpClient) {}
 
   listePartenaires(): Observable<Partenaire[]> {
-    return this.http.get<Partenaire[]>(`${this.apiURL}/all`);
+    return this.http.get<Partenaire[]>(`${this.apiURL}?action=all`);
   }
 
   loadImage(id: number): Observable<Image> {
-    return this.http.get<Image>(`${this.imageURL}/details/${id}`);
+    return this.http.get<Image>(`${this.imageURL}?action=details&id=${id}`);
   }
 }

@@ -6,7 +6,7 @@ import { AdhesionService } from '../services/adhesion';
 import { HttpErrorResponse } from '@angular/common/http';
 import { switchMap, catchError } from 'rxjs/operators';
 import { of, forkJoin, EMPTY } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 
 interface FormData {
@@ -33,7 +33,7 @@ interface IAResponse {
 @Component({
   selector: 'app-adhesion',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './adhesion.html',
   styleUrls: ['./adhesion.css'],
 })

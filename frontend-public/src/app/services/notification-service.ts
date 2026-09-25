@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { NotifMembre } from '../model/notification.model';
 
 export interface SSEHandle {
@@ -10,7 +11,7 @@ export interface SSEHandle {
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
 
-  private base = '/api/notifications';
+  private base = `${environment.apiBaseUrl}/api/notifications.php`;
 
   constructor(private http: HttpClient) {}
 
@@ -24,28 +25,23 @@ export class NotificationService {
 
   getNonLuesMembre(membreId: number): Observable<NotifMembre[]> {
     return this.http.get<NotifMembre[]>(
-      `${this.base}/membre/${membreId}`,
+      `${this.base}?action=membre&id=${membreId}`,
       { headers: this.getHeaders() }
     );
   }
 
   marquerCommeLue(id: number): Observable<void> {
     return this.http.put<void>(
-      `${this.base}/${id}/lire`,
+      `${this.base}?action=lire&id=${id}`,
       {},
       { headers: this.getHeaders() }
     );
   }
 
-  /**
-   * Pas de SSE côté backend : on simule le "temps réel" par un sondage (polling)
-   * de la liste des notifications non lues. Renvoie un handle avec close().
-   */
   connecterSSE(userId: number, onNotif: (n: NotifMembre) => void): SSEHandle {
     let stopped = false;
     const knownIds = new Set<number>();
 
-    // Chargement initial : on seed les IDs connus sans notifier
     this.getNonLuesMembre(userId).subscribe(notifs => {
       notifs.forEach(n => knownIds.add(n.id));
     });
